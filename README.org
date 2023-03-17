@@ -1,0 +1,62 @@
+* Vocabull Server
+
+* Overview
+[[https://github.com/achiwa912/vbs][Vocabull (server)]] will be a web application for your vocabulary building.
+Currently, it just show a hello world page.
+
+* Getting started
+** Usage
+
+** Setup server
+- Setup Python 3.11 or later
+- git clone repostory
+: git clone git@github.com:achiwa912/vbs.git
+- create virtual environment (recommended)
+#+begin_src bash
+cd vbs
+python -m venv ve
+./ve/bin/activate
+#+end_src
+- Install prerequisites
+: pip install -r requirements.txt
+Or, optionally,
+#+begin_src 
+pip install flask
+pip install bootstrap-flask
+pip install flask-wtf
+pip install flask-moment
+pip install flask-sqlalchemy
+pip install flask-login
+#+end_src
+- Set environment variables if you use Flask's development web server
+#+begin_src bash
+export FLASK_APP=vbs.py
+export FLASK_DEBUG=1  # optional
+#+end_src
+- Initial setup
+: flask initial-setup
+- Create =secrets.json= file
+#+begin_src
+{
+    "ADMIN_USER": "<admin_user>",
+    "ADMIN_PASS": "<admin_password>"
+}
+#+end_src
+- Run app
+: flask run
+or use a proper web server
+: pip install gunicorn
+: gunicorn --bind 0.0.0.0:5000 vbs:app
+- Visit =localhost:5000= from web browser
+
+* License
+Vocabull Server is under [[https://en.wikipedia.org/wiki/MIT_License][MIT license]].
+
+* Contact
+Kyosuke Achiwa - achiwa912+gmail.com (please replace + with @)
+
+Project Link: [[https://github.com/achiwa912/vbs]]
+
+* Acknowledgements
+- Vocabull Server uses user management and other parts from the fabulous =Flask Web Develoopment= (by Miguel Grinberg) [[https://www.oreilly.com/library/view/flask-web-development/9781491991725/][book]] and [[https://github.com/miguelgrinberg/flasky][companion github repository]]
+- Vocabull Server uses a bootstrap 4 theme =Journal= from [[bootswatch CDN]]
