@@ -64,5 +64,5 @@ Kyosuke Achiwa - achiwa912+gmail.com (please replace + with @)
 Project Link: [[https://github.com/achiwa912/vbs]]
 
 * Acknowledgements
-- Vocabull Server uses user management and other parts from the fabulous =Flask Web Develoopment= (by Miguel Grinberg) [[https://www.oreilly.com/library/view/flask-web-development/9781491991725/][book]] and [[https://github.com/miguelgrinberg/flasky][companion github repository]]
+- Vocabull Server uses user management and other parts from the fabulous =Flask Web Development= (by Miguel Grinberg) [[https://www.oreilly.com/library/view/flask-web-development/9781491991725/][book]] and [[https://github.com/miguelgrinberg/flasky][companion github repository]]
 - Vocabull Server uses a bootstrap 4 theme =United= from [[bootswatch CDN]]
