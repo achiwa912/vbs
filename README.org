@@ -2,10 +2,16 @@
 
 * Overview
 [[https://github.com/achiwa912/vbs][Vocabull (server)]] will be a web application for your vocabulary building.
-Currently, it just show a hello world page.
+Currently, it just shows a hello world page.
 
 * Getting started
 ** Usage
+*** Register and login
+- Visit =localhost:5000= or a URL on which Vocabull is served
+- Click the menu icon at the top right corner > =Login= > =Click here to register=
+- Register your account
+- Login
+
 
 ** Setup server
 - Setup Python 3.11 or later
@@ -59,4 +65,4 @@ Project Link: [[https://github.com/achiwa912/vbs]]
 
 * Acknowledgements
 - Vocabull Server uses user management and other parts from the fabulous =Flask Web Develoopment= (by Miguel Grinberg) [[https://www.oreilly.com/library/view/flask-web-development/9781491991725/][book]] and [[https://github.com/miguelgrinberg/flasky][companion github repository]]
-- Vocabull Server uses a bootstrap 4 theme =Journal= from [[bootswatch CDN]]
+- Vocabull Server uses a bootstrap 4 theme =United= from [[bootswatch CDN]]
