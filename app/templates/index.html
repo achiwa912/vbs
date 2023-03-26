@@ -6,6 +6,8 @@
 {% block page_content %}
 
 Hello World!
-{{ url_for('static', filename='favicon.ico') }}
+{% for my_book in my_books %}
+<p>{{ my_book.name }}</p>
+{% endfor %}
 
 {% endblock %}

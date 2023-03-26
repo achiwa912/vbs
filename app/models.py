@@ -21,6 +21,7 @@ class Word(db.Model):
     definition = db.Column(db.String(256))
     sample = db.Column(db.String(256), default="")
     book_id = db.Column(db.Integer, db.ForeignKey("books.id"))
+    book = db.relationship("Book", back_populates="words")
 
     def __init__(self, word, definition, sample, book_id):
         self.word = word
@@ -42,13 +43,11 @@ class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    words = db.relationship("Word", backref="book")
+    words = db.relationship("Word", back_populates="book")
     subscribers = db.relationship(
-        "User",
-        secondary=subscriptions,
-        backref=db.backref("users", lazy="dynamic"),
-        lazy="dynamic",
+        "User", secondary=subscriptions, back_populates="books"
     )
+    owner = db.relationship("User", back_populates="my_books")
 
     def __init__(self, name, owner_id):
         self.name = name
@@ -67,7 +66,7 @@ class Book(db.Model):
                 # same word in this book?
                 if (
                     Word.query.join(Book, Book.id == Word.book_id)
-                    .filter(word=llist[0])
+                    .filter(Word.word == llist[0])
                     .first()
                 ):
                     continue
@@ -143,6 +142,10 @@ class User(UserMixin, db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey("roles.id"))
     password_hash = db.Column(db.String(128))
     words = db.relationship("Practice", back_populates="user")
+    my_books = db.relationship("Book", back_populates="owner")
+    books = db.relationship(
+        "Book", secondary=subscriptions, back_populates="subscribers"
+    )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
