@@ -4,6 +4,83 @@ from . import db, login_manager
 from config import config
 
 
+class Practice(db.Model):
+    __tablename__ = "practices"
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
+    word_id = db.Column(db.Integer, db.ForeignKey("words.id"), primary_key=True)
+    score_w2d = db.Column(db.Integer, default=0)
+    score_d2w = db.Column(db.Integer, default=0)
+    score_type = db.Column(db.Integer, default=0)
+    user = db.relationship("User", back_populates="words")
+
+
+class Word(db.Model):
+    __tablename__ = "words"
+    id = db.Column(db.Integer, primary_key=True)
+    word = db.Column(db.String(64))
+    definition = db.Column(db.String(256))
+    sample = db.Column(db.String(256), default="")
+    book_id = db.Column(db.Integer, db.ForeignKey("books.id"))
+
+    def __init__(self, word, definition, sample, book_id):
+        self.word = word
+        self.definition = definition
+        self.sample = sample
+        self.book_id = book_id
+        db.session.add(self)
+
+
+subscriptions = db.Table(
+    "subscriptions",
+    db.Column("user_id", db.Integer, db.ForeignKey("users.id")),
+    db.Column("book_id", db.Integer, db.ForeignKey("books.id")),
+)
+
+
+class Book(db.Model):
+    __tablename__ = "books"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    words = db.relationship("Word", backref="book")
+    subscribers = db.relationship(
+        "User",
+        secondary=subscriptions,
+        backref=db.backref("users", lazy="dynamic"),
+        lazy="dynamic",
+    )
+
+    def __init__(self, name, owner_id):
+        self.name = name
+        self.owner_id = owner_id
+        db.session.add(self)
+
+    def load_from_file(self, file_path):
+        """
+        Load word data from a file
+        """
+        with open(file_path) as fpnt:
+            for line in fpnt:
+                llist = line.split("\t")
+                if len(llist) < 2:
+                    continue
+                # same word in this book?
+                if (
+                    Word.query.join(Book, Book.id == Word.book_id)
+                    .filter(word=llist[0])
+                    .first()
+                ):
+                    continue
+                if len(llist) > 2:
+                    word = Word(
+                        llist[0].strip(), llist[1].strip(), llist[2].strip(), self.id
+                    )
+                else:
+                    word = Word(llist[0].strip(), llist[1].strip(), "", self.id)
+                db.session.add(word)
+            db.session.commit()
+
+
 class Permission:
     VIEW = 1
     WRITE = 2
@@ -65,6 +142,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), unique=True, index=True)
     role_id = db.Column(db.Integer, db.ForeignKey("roles.id"))
     password_hash = db.Column(db.String(128))
+    words = db.relationship("Practice", back_populates="user")
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
