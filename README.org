@@ -2,7 +2,7 @@
 
 * Overview
 [[https://github.com/achiwa912/vbs][Vocabull (server)]] will be a web application for your vocabulary building.
-Currently, it just shows a hello world page.
+Currently, it just shows my books as cards.
 
 * Getting started
 ** Usage
