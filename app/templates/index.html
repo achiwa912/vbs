@@ -5,9 +5,24 @@
 
 {% block page_content %}
 
-Hello World!
+{% if current_user.is_authenticated %}
+<h2>My Books <button type="button" class="btn btn-primary">Add</button></h2>
+<hr>
+
 {% for my_book in my_books %}
-<p>{{ my_book.name }}</p>
+<div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+  <div class="card-header">{{ my_book.name }}</div>
+  <div class="card-body">
+    <p class="card-text">
+      {{ my_book.words|length }} words<br>
+      created: {{ my_book.createtime.date() }}
+    </p>
+  </div>
+</div>
 {% endfor %}
+{% endif %}
+
+<h2>Subscription <button type="button" class="btn btn-primary">Add</button></h2>
+<hr>
 
 {% endblock %}

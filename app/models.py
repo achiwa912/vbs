@@ -1,3 +1,4 @@
+from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, AnonymousUserMixin
 from . import db, login_manager
@@ -42,6 +43,7 @@ class Book(db.Model):
     __tablename__ = "books"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
+    createtime = db.Column(db.DateTime())
     owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     words = db.relationship("Word", back_populates="book")
     subscribers = db.relationship(
@@ -52,6 +54,7 @@ class Book(db.Model):
     def __init__(self, name, owner_id):
         self.name = name
         self.owner_id = owner_id
+        self.createtime = datetime.utcnow()
         db.session.add(self)
 
     def load_from_file(self, file_path):
