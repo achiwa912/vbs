@@ -1,5 +1,5 @@
-from flask import render_template, session
-from flask_login import current_user
+from flask import render_template, session, redirect, url_for, flash
+from flask_login import current_user, login_required
 from . import main
 from ..models import Book
 
@@ -15,3 +15,11 @@ def index():
         known=session.get("known", False),
         my_books=my_books,
     )
+
+
+@main.route("/book/<bk_id>", methods=["GET", "POST"])
+@login_required
+def book(bk_id):
+    bk = Book.query.filter_by(id=bk_id).first_or_404()
+    session["url"] = url_for(".book", bk_id=bk_id)
+    return render_template("book.html", bk=bk)

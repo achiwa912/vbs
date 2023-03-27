@@ -10,15 +10,17 @@
 <hr>
 
 {% for my_book in my_books %}
-<div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-  <div class="card-header">{{ my_book.name }}</div>
-  <div class="card-body">
-    <p class="card-text">
-      {{ my_book.words|length }} words<br>
-      created: {{ my_book.createtime.date() }}
-    </p>
+<a href="/book/{{ my_book.id }}">
+  <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+    <div class="card-header">{{ my_book.name }}</div>
+    <div class="card-body">
+      <p class="card-text">
+	{{ my_book.words|length }} words<br>
+	created: {{ my_book.createtime.date() }}
+      </p>
+    </div>
   </div>
-</div>
+</a>
 {% endfor %}
 {% endif %}
 
