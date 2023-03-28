@@ -1,6 +1,6 @@
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin, AnonymousUserMixin
+from flask_login import UserMixin, AnonymousUserMixin, current_user
 from . import db, login_manager
 from config import config
 
@@ -13,6 +13,10 @@ class Practice(db.Model):
     score_d2w = db.Column(db.Integer, default=0)
     score_type = db.Column(db.Integer, default=0)
     user = db.relationship("User", back_populates="words")
+
+    def __init__(self, user_id, word_id):
+        self.user_id = user_id
+        self.word_id = word_id
 
 
 class Word(db.Model):
@@ -193,3 +197,54 @@ login_manager.anonymous_user = AnonymousUser
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
+def fill_lwin(lwin, index, book, ptype):
+    """
+    fill learning window (lwin)
+    lwin - list of tuple (id, word, definition, sample)
+    ptype - 0: w2d, 1: d2w, 2: type
+    """
+    addnum = config["LWIN_SIZE"] - len(lwin)
+    if addnum <= 0:
+        return
+    if ptype == 2:  # type
+        practices = (
+            Practice.query.join(User, User.id == Practice.user_id)
+            .join(Word, Word.id == Practice.word_id)
+            .filter(Word.book_id == book.id and User.id == current_user.id)
+            .order_by(Practice.score_type)
+            .limit(addnum)
+        )
+    elif ptype == 1:  # d2w
+        practices = (
+            Practice.query.join(User, User.id == Practice.user_id)
+            .join(Word, Word.id == Practice.word_id)
+            .filter(Word.book_id == book.id and User.id == current_user.id)
+            .order_by(Practice.score_d2w)
+            .limit(addnum)
+        )
+    else:  # w2d
+        practices = (
+            Practice.query.join(User, User.id == Practice.user_id)
+            .join(Word, Word.id == Practice.word_id)
+            .filter(Word.book_id == book.id and User.id == current_user.id)
+            .order_by(Practice.score_w2d)
+            .limit(addnum)
+        )
+    for practice in practices:
+        word = Word.query.filter_by(id=practice.word_id).first()
+        lwin.insert(index, (word.id, word.word, word.definition, word.sample))
+
+
+def create_practices(book, user):
+    """
+    create practices for the book and the user
+    """
+    words = Word.query.filter_by(book_id=book.id).all()
+    for word in words:
+        if not Practice.query.filter(
+            Practice.word_id == word.id and Practice.user_id == user.id
+        ).first():
+            db.session.add(Practice(user.id, word.id))
+    db.session.commit()

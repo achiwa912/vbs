@@ -32,6 +32,7 @@ config_base = {
     "testing": TestingConfig,
     "production": ProductionConfig,
     "default": DevelopmentConfig,
+    "LWIN_SIZE": 10,  # Learning window size
     "debug": True,
 }
 
