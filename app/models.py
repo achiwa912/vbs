@@ -1,5 +1,6 @@
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask import session
 from flask_login import UserMixin, AnonymousUserMixin, current_user
 from . import db, login_manager
 from config import config
@@ -199,42 +200,55 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-def fill_lwin(lwin, index, book, ptype):
+def fill_lwin(book_id, ptype):
     """
     fill learning window (lwin)
-    lwin - list of tuple (id, word, definition, sample)
+    lwin - list of word_id
     ptype - 0: w2d, 1: d2w, 2: type
     """
-    addnum = config["LWIN_SIZE"] - len(lwin)
+    addnum = config["LWIN_SIZE"] - len(session["lwin"])
     if addnum <= 0:
         return
     if ptype == 2:  # type
         practices = (
             Practice.query.join(User, User.id == Practice.user_id)
             .join(Word, Word.id == Practice.word_id)
-            .filter(Word.book_id == book.id and User.id == current_user.id)
+            .filter(Word.book_id == book_id and User.id == current_user.id)
             .order_by(Practice.score_type)
-            .limit(addnum)
+            .limit(config["LWIN_SIZE"])
+            .all()
         )
     elif ptype == 1:  # d2w
         practices = (
             Practice.query.join(User, User.id == Practice.user_id)
             .join(Word, Word.id == Practice.word_id)
-            .filter(Word.book_id == book.id and User.id == current_user.id)
+            .filter(Word.book_id == book_id and User.id == current_user.id)
             .order_by(Practice.score_d2w)
-            .limit(addnum)
+            .limit(config["LWIN_SIZE"])
+            .all()
         )
     else:  # w2d
         practices = (
             Practice.query.join(User, User.id == Practice.user_id)
             .join(Word, Word.id == Practice.word_id)
-            .filter(Word.book_id == book.id and User.id == current_user.id)
+            .filter(Word.book_id == book_id and User.id == current_user.id)
             .order_by(Practice.score_w2d)
-            .limit(addnum)
+            .limit(config["LWIN_SIZE"])
+            .all()
         )
+    """
+    Wow, I had a really tough bug here.
+    NEVER directly update session context variable if it's a list.
+    I did like session['lwin'].append(..) but it reverted back to
+    previous list after a redirect.
+    https://stackoverflow.com/questions/61972873/flask-session-lost-data
+    """
+    lwin = session["lwin"][:]
     for practice in practices:
         word = Word.query.filter_by(id=practice.word_id).first()
-        lwin.insert(index, (word.id, word.word, word.definition, word.sample))
+        if word.id not in session["lwin"]:
+            lwin.append(word.id)
+    session["lwin"] = lwin
 
 
 def create_practices(book, user):
