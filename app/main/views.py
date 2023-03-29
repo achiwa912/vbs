@@ -29,9 +29,9 @@ def book(bk_id):
     return render_template("book.html", bk=bk)
 
 
-@main.route("/practice-w2d/<bk_id>")
+@main.route("/practice/<bk_id>/<ptype>")
 @login_required
-def practice_w2d(bk_id):
+def practice(bk_id, ptype):
     bk = Book.query.filter_by(id=bk_id).first_or_404()
 
     # create practices for the book & user
@@ -43,21 +43,20 @@ def practice_w2d(bk_id):
     )
     numword = Word.query.filter_by(book_id=bk_id).count()
     if numprac < numword:
-        breakpoint()
         create_practices(bk, current_user)
     if not session.get("lwin"):
         session["lwin"] = []
     if not session.get("index"):
         session["index"] = 0
-    fill_lwin(bk.id, 0)
-    session["url"] = url_for(".practice_w2d", bk_id=bk_id)
+    fill_lwin(bk.id, ptype)
+    session["url"] = url_for(".practice", bk_id=bk_id, ptype=ptype)
     word = Word.query.filter_by(id=session["lwin"][session["index"]]).first()
     prac = (
         Practice.query.filter_by(user_id=current_user.id)
         .filter_by(word_id=word.id)
         .first()
     )
-    return render_template("practice-w2d.html", bk=bk, word=word, prac=prac)
+    return render_template("practice.html", bk=bk, word=word, prac=prac, ptype=ptype)
 
 
 @main.route("/practice-oncemore")

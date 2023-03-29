@@ -204,12 +204,12 @@ def fill_lwin(book_id, ptype):
     """
     fill learning window (lwin)
     lwin - list of word_id
-    ptype - 0: w2d, 1: d2w, 2: type
+    ptype - '0': w2d, '1': d2w, '2': type
     """
     addnum = config["LWIN_SIZE"] - len(session["lwin"])
     if addnum <= 0:
         return
-    if ptype == 2:  # type
+    if int(ptype) == 2:  # type
         practices = (
             Practice.query.join(User, User.id == Practice.user_id)
             .join(Word, Word.id == Practice.word_id)
@@ -218,7 +218,7 @@ def fill_lwin(book_id, ptype):
             .limit(config["LWIN_SIZE"])
             .all()
         )
-    elif ptype == 1:  # d2w
+    elif int(ptype) == 1:  # d2w
         practices = (
             Practice.query.join(User, User.id == Practice.user_id)
             .join(Word, Word.id == Practice.word_id)
