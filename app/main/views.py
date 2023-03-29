@@ -77,9 +77,9 @@ def practice_memorized(ptype, plus):
     practice = Practice.query.filter(
         Practice.word_id == word_id and Practice.user_id == current_user.id
     ).first()
-    if ptype == 2:  # type Word
+    if int(ptype) == 2:  # type Word
         practice.score_type += int(plus)
-    elif ptype == 1:  # d2w
+    elif int(ptype) == 1:  # d2w
         practice.score_d2w += int(plus)
     else:  # w2d
         practice.score_w2d += int(plus)

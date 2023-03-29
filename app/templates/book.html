@@ -16,13 +16,13 @@
     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
       <a class="dropdown-item" href="/practice/{{ bk.id }}/0">word to def</a>
       <a class="dropdown-item" href="/practice/{{ bk.id }}/1">def to word</a>
-      <a class="dropdown-item" href="/practice-type/{{ bk.id }}">type word</a>
+      <a class="dropdown-item disabled" href="/practice-type/{{ bk.id }}">type word</a>
     </div>
   </div>
 </div>
-<button type="button" class="btn btn-primary">Add word</button>
-<button type="button" class="btn btn-primary">Load from file</button>
-<button type="button" class="btn btn-warning">Delete book</button>
+<button type="button" class="btn btn-primary disabled">Add word</button>
+<button type="button" class="btn btn-primary disabled">Load from file</button>
+<button type="button" class="btn btn-warning disabled">Delete book</button>
 <hr>
 <table class="table">
   <thread>
@@ -30,9 +30,7 @@
       <th>id</th>
       <th>word</th>
       <th>definition</th>
-      <th>word</th>
-      <th>def</th>
-      <th>type</th>
+      <th></th>
     </tr>
   </thread>
   <tbody>
@@ -41,9 +39,7 @@
       <td>{{ word.id }}</td>
       <td>{{ word.word|truncate(16) }}</td>
       <td>{{ word.definition|truncate(32) }}</td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td><button type="button" class="btn btn-primary btn-sm disabled">edit</button></td>
     </tr>
     {% endfor %}
   </tbody>
