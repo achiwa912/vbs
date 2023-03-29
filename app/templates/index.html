@@ -6,7 +6,7 @@
 {% block page_content %}
 
 {% if current_user.is_authenticated %}
-<h2>My Books <button type="button" class="btn btn-primary disabled">Add</button></h2>
+<h2>My Books <a href="/add-book"><button type="button" class="btn btn-primary">Add</button></a></h2>
 <hr>
 
 {% for my_book in my_books %}

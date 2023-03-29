@@ -2,6 +2,7 @@ from flask import render_template, session, redirect, url_for, flash
 from flask_login import current_user, login_required
 from config import config
 from . import main
+from .forms import EditBookForm
 from .. import db
 from ..models import Book, Word, Practice, User, fill_lwin, create_practices
 
@@ -90,3 +91,53 @@ def practice_memorized(ptype, plus):
     if "url" in session:
         return redirect(session["url"])
     return redirect(url_for(".index"))
+
+
+@main.route("/add-book", methods=["GET", "POST"])
+@login_required
+def add_book():
+    """
+    Add a vacant book
+    """
+    form = EditBookForm()
+    if form.validate_on_submit():
+        bk = Book.query.filter_by(name=form.name.data).first()
+        if bk:
+            flash(f"Book: { form.name.data } already exists", "error")
+            return redirect(url_for(".index"))
+        bk = Book(form.name.data, current_user.id)
+        db.session.add(bk)
+        db.session.commit()
+        flash(f"Book: { bk.name } created", "success")
+        return redirect(url_for(".index"))
+    return render_template("editbook.html", form=form, bk=None)
+
+
+@main.route("/edit-book/<bk_id>", methods=["GET", "POST"])
+@login_required
+def edit_book(bk_id):
+    """
+    Edit book name or delete the book
+    """
+    form = EditBookForm()
+    if form.validate_on_submit():
+        bk = Book.query.filter_by(id=bk_id).first()
+        if not bk:
+            flash(f"Book id={bk_id} doesn't exist", "error")
+            return redirect(url_for(".index"))
+        if form.delete.data:
+            db.session.delete(bk)
+            db.session.commit()
+            flash(f"Book: { bk.name } deleted", "success")
+        else:
+            bk.name = form.name.data
+            db.session.add(bk)
+            db.session.commit()
+            flash(f"Renamed to { bk.name }", "success")
+        return redirect(url_for(".index"))
+    bk = Book.query.filter_by(id=bk_id).first()
+    if not bk:
+        flash(f"Book id={bk_id} doesn't exist", "error")
+        return redirect(url_for(".index"))
+    form.name.data = bk.name
+    return render_template("editbook.html", form=form, bk=bk)

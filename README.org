@@ -12,6 +12,16 @@ Currently, "word to definition" and "definition to word" practices are implement
 - Register your account
 - Login
 
+*** Choose book and start practicing
+- Click a card representing a book \to you are navigated to the book page
+- Click =Practice= and choose a practice type/mode from the dropdown menu to you are navigated to a practice page
+
+*** Practice
+- Click left/right edge of a word card to flip and show the answer
+- If you don't know, click =Once more= so that the word will reappear in the near future
+- If you managed to memorize, click =Memorized for now= to increase score by 1
+- If you know the word, click =Knew it!= to increase score by 5
+- Click =Back to book= to go back to the selected book
 
 ** Setup server
 - Setup Python 3.11 or later
