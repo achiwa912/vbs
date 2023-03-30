@@ -74,11 +74,13 @@ def practice(bk_id, ptype):
                 session["lwin"].pop(session["index"])
                 fill_lwin(bk.id, int(ptype))
                 correct = True
+                flash(f"Correct! -- type the word 4 times, anyway", "success")
             else:
                 session["index"] += 1
                 if session["index"] >= len(session["lwin"]):
                     session["index"] = 0
                 correct = False
+                flash(f"Incorrect! -- Let's type the word 4 times", "error")
             return redirect(f"/repeat/{word.id}/{correct}")
         return render_template(
             "practice-type.html", bk=bk, word=word, prac=prac, form=form

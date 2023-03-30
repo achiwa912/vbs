@@ -65,7 +65,7 @@ deleterious	bad, harmful	[a *********** effect on health]
 - Vocabull shows the definition of a word and asks you to type the word
 - Type your answer and click =Submit= (or push =return= key)
 - It shows corret/incorrect and asks you to type the word 4 times, anyway
-  - Tip: use =tab= key to move from an input box to another
+  - Tip: use =tab= or =return= key to move from an input box to another
   - If incorrect, you'll see the word again after a while
 - It moves to the next word
 
