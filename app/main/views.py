@@ -16,6 +16,10 @@ from ..models import Book, Word, Practice, User, fill_lwin, create_practices
 
 @main.route("/", methods=["GET", "POST"])
 def index():
+    if config["debug"]:
+        session["debug"] = True
+    else:
+        session["debug"] = False
     my_books = []
     if current_user.is_authenticated:
         my_books = Book.query.filter_by(owner_id=current_user.id).all()

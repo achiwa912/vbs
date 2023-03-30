@@ -17,11 +17,13 @@
 </div>
 
 <hr>
+{% if session["debug"] %}
 <p class="text-secondary">
   for debug -
   <br>
   index: {{ session["index"] }} - {{ session["lwin"] }}, 
   prac: {{ prac }}, {{ word }}
 </p>
+{% endif %}
 
 {% endblock %}
