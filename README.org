@@ -11,7 +11,7 @@
 ** How Vocabull works
 - Vocabull keeps track of 10 recent unfamiliar words that you are working on
 - You'll see these 10 words repeatedly until you "memorize" them for now
-- You'll see memorized words again after the entire words are memorized
+- You'll see memorized words again after the entire words are memorized for the round
 - You can skip known words (to you) for five entire rounds; or, you can remove the words
 
 * Quick Start
@@ -38,13 +38,14 @@
   - You can flip cards as many as you like
 - If you don't know, click =Once more= so that the word will reappear in the near future
 - If you managed to memorize it, click =Memorized for now= to increase the score by 1
+  - You won't see the word for this round as Vocabull presents to you 10-lowest-score words
 - If you know the word, click =Knew it!= to increase the score by 5!
 - Click =Back to book= to go back to the selected book
 
 * Usage
 ** Setup server
 - Setup Python 3.11 or later
-- git clone repostory
+- git clone repository
 : git clone git@github.com:achiwa912/vbs.git
 - create virtual environment (recommended)
 #+begin_src bash
