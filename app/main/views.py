@@ -2,7 +2,7 @@ from flask import render_template, session, redirect, url_for, flash
 from flask_login import current_user, login_required
 from config import config
 from . import main
-from .forms import EditBookForm, EditWordForm, AddWordForm
+from .forms import EditBookForm, EditWordForm, AddWordForm, LoadFileForm
 from .. import db
 from ..models import Book, Word, Practice, User, fill_lwin, create_practices
 
@@ -126,8 +126,7 @@ def edit_book(bk_id):
             flash(f"Book id={bk_id} doesn't exist", "error")
             return redirect(url_for(".index"))
         if form.delete.data:
-            db.session.delete(bk)
-            db.session.commit()
+            bk.delete()
             flash(f"Book: { bk.name } deleted", "success")
         else:
             bk.name = form.name.data
@@ -187,15 +186,7 @@ def edit_word(wd_id):
             return redirect(url_for(".index"))
         if form.delete.data:
             book = Book.query.filter_by(id=word.book_id).first()
-            prac = (
-                Practice.query.filter_by(word_id=word.id)
-                .filter_by(user_id=current_user.id)
-                .first()
-            )
-            if prac:
-                db.session.delete(prac)
-            db.session.delete(word)
-            db.session.commit()
+            word.delete()
             flash(f"Word {word.word} deleted", "success")
             if "url" in session and len(book.words) > 0:
                 return redirect(session["url"])
@@ -227,3 +218,25 @@ def edit_word(wd_id):
         form.score_d2w.data = 0
         form.score_type.data = 0
     return render_template("editword.html", form=form, word=word)
+
+
+@main.route("/load-file/<bk_id>", methods=["GET", "POST"])
+@login_required
+def load_file(bk_id):
+    """
+    Load words from a file
+    """
+    form = LoadFileForm()
+    if form.validate_on_submit():
+        filename = form.filename.data.filename
+        bk = Book.query.filter_by(id=bk_id).first()
+        if not bk:
+            flash(f"Book id={bk_id} not found", "error")
+            if "url" in session:
+                return redirect(session["url"])
+            return redirect(url_for(".index"))
+        bk.load_from_file(filename)
+        if "url" in session:
+            return redirect(session["url"])
+        return redirect(url_for(".index"))
+    return render_template("loadfile.html", form=form, bk_id=bk_id)

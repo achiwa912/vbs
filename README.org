@@ -1,7 +1,7 @@
 * Vocabull (server)
 
 * Overview
-[[https://github.com/achiwa912/vbs][Vocabull (server)]] is a flash card web application for your vocabulary building.  It will have three modes:
+[[https://github.com/achiwa912/vbs][Vocabull (server)]] is a flash card web application for your vocabulary building.  It has three modes:
 1. Flash cards - word \to definition
 2. Flash cards - definition \to word
 3. Type words from the definitions (coming soon)
@@ -12,7 +12,7 @@
 - Vocabull keeps track of 10 recent unfamiliar words that you are working on
 - You'll see these 10 words repeatedly until you "memorize" them for now
 - You'll see memorized words again after the entire words are memorized for the round
-- You can skip known words (to you) for five entire rounds; or, you can remove the words
+- You can skip known words for five entire rounds; or, you can remove the words
 
 * Quick Start
 *** Register and login
@@ -25,14 +25,15 @@
 - Click My Books > =Add= button
 - Type a book name and click =Submit=
 
-*** Choose book and start practicing
+*** Choose book and add words
 - Click the newly created book card
 - Click =Add word=
 - Type word and definition, and then click =Submit= \to Now, =Practice= is activated
-- Click =Practice= menu > choose =word to def= or =def to word=
-  - You will be navigated to the practice page
+- Add a few more words
 
 *** Practice
+- Click =Practice= menu > choose =word to def= or =def to word=
+  - You will be navigated to the practice page
 - Click left/right edge of the word card to flip and show the answer
   - Orange card shows the word, and blue card shows the definition
   - You can flip cards as many as you like

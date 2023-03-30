@@ -1,5 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, RadioField, BooleanField, IntegerField
+from wtforms import (
+    StringField,
+    SubmitField,
+    RadioField,
+    BooleanField,
+    IntegerField,
+    FileField,
+)
 from wtforms.validators import DataRequired
 
 
@@ -24,4 +31,9 @@ class EditWordForm(FlaskForm):
     score_d2w = IntegerField("Score def to word")
     score_type = IntegerField("Score type word")
     delete = BooleanField("Delete")
+    submit = SubmitField("Submit")
+
+
+class LoadFileForm(FlaskForm):
+    filename = FileField()
     submit = SubmitField("Submit")

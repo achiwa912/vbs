@@ -36,6 +36,17 @@ class Word(db.Model):
         self.book_id = book_id
         db.session.add(self)
 
+    def delete(self):
+        prac = (
+            Practice.query.filter_by(word_id=self.id)
+            .filter_by(user_id=current_user.id)
+            .first()
+        )
+        if prac:
+            db.session.delete(prac)
+        db.session.delete(self)
+        db.session.commit()
+
 
 subscriptions = db.Table(
     "subscriptions",
@@ -73,8 +84,8 @@ class Book(db.Model):
                     continue
                 # same word in this book?
                 if (
-                    Word.query.join(Book, Book.id == Word.book_id)
-                    .filter(Word.word == llist[0])
+                    Word.query.filter_by(book_id=self.id)
+                    .filter_by(word=llist[0])
                     .first()
                 ):
                     continue
@@ -86,6 +97,12 @@ class Book(db.Model):
                     word = Word(llist[0].strip(), llist[1].strip(), "", self.id)
                 db.session.add(word)
             db.session.commit()
+
+    def delete(self):
+        for word in self.words:
+            word.delete()
+        db.session.delete(self)
+        db.session.commit()
 
 
 class Permission:
