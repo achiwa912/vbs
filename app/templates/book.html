@@ -10,6 +10,12 @@
 <hr>
 
 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+  {% if bk.words|length == 0 %}
+  <button type="button" class="btn btn-primary disabled">Practice</button>
+  <div class="btn-group" role="group">
+    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle disabled" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+  </div>
+  {% else %}
   <button type="button" class="btn btn-primary">Practice</button>
   <div class="btn-group" role="group">
     <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
@@ -19,8 +25,9 @@
       <a class="dropdown-item disabled" href="/practice-type/{{ bk.id }}">type word</a>
     </div>
   </div>
+  {% endif %}
 </div>
-<button type="button" class="btn btn-primary disabled">Add word</button>
+<a href="/add-word/{{ bk.id }}"><button type="button" class="btn btn-primary">Add word</button></a>
 <button type="button" class="btn btn-primary disabled">Load from file</button>
 <a href="/edit-book/{{ bk.id }}"><button type="button" class="btn btn-primary">Edit book</button></a>
 <hr>
@@ -39,7 +46,7 @@
       <td>{{ word.id }}</td>
       <td>{{ word.word|truncate(16) }}</td>
       <td>{{ word.definition|truncate(32) }}</td>
-      <td><button type="button" class="btn btn-primary btn-sm disabled">edit</button></td>
+      <td><a href="/edit-word/{{ word.id }}"><button type="button" class="btn btn-primary btn-sm">edit</button></a></td>
     </tr>
     {% endfor %}
   </tbody>

@@ -4,14 +4,10 @@
 {% block page_content %}
 <br>
 <div class="page-header">
-  {% if bk  %}
-  <h1>Edit book - {{ bk.name }}</h1>
-  {% else %}
-  <h1>Add a book</h1>
-  {% endif %}
+  <h1>Edit word - {{ word.word }}</h1>
 </div>
 <hr>
-<div class="col-md-6">
+<div class="col-md-8">
   {{ wtf.render_form(form) }}
 </div>
 {% endblock %}

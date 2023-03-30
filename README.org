@@ -14,7 +14,7 @@ Currently, "word to definition" and "definition to word" practices are implement
 
 *** Choose book and start practicing
 - Click a card representing a book \to you are navigated to the book page
-- Click =Practice= and choose a practice type/mode from the dropdown menu to you are navigated to a practice page
+- Click =Practice= and choose a practice type/mode from the dropdown menu \to you are navigated to the practice page
 
 *** Practice
 - Click left/right edge of a word card to flip and show the answer

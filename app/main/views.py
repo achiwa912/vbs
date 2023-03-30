@@ -2,7 +2,7 @@ from flask import render_template, session, redirect, url_for, flash
 from flask_login import current_user, login_required
 from config import config
 from . import main
-from .forms import EditBookForm
+from .forms import EditBookForm, EditWordForm, AddWordForm
 from .. import db
 from ..models import Book, Word, Practice, User, fill_lwin, create_practices
 
@@ -64,7 +64,7 @@ def practice(bk_id, ptype):
 @login_required
 def practice_oncemore():
     session["index"] += 1
-    if session["index"] >= config["LWIN_SIZE"]:
+    if session["index"] >= len(session["lwin"]):
         session["index"] = 0
     if "url" in session:
         return redirect(session["url"])
@@ -141,3 +141,89 @@ def edit_book(bk_id):
         return redirect(url_for(".index"))
     form.name.data = bk.name
     return render_template("editbook.html", form=form, bk=bk)
+
+
+@main.route("/add-word/<bk_id>", methods=["GET", "POST"])
+@login_required
+def add_word(bk_id):
+    """
+    Add a new word
+    """
+    form = AddWordForm()
+    if form.validate_on_submit():
+        word = Word(
+            form.word.data.strip(),
+            form.definition.data.strip(),
+            form.sample.data.strip(),
+            bk_id,
+        )
+        db.session.add(word)
+        db.session.commit()
+        flash(f"Word: {word.word} added", "success")
+        if "url" in session:
+            return redirect(session["url"])
+        return redirect(url_for(".index"))
+    return render_template("addword.html", form=form)
+
+
+@main.route("/edit-word/<wd_id>", methods=["GET", "POST"])
+@login_required
+def edit_word(wd_id):
+    """
+    Edit (or delete) word
+    """
+    form = EditWordForm()
+    word = Word.query.filter_by(id=wd_id).first()
+    prac = (
+        Practice.query.filter_by(word_id=word.id)
+        .filter_by(user_id=current_user.id)
+        .first()
+    )
+    if form.validate_on_submit():
+        if not word:
+            flash(f"Word id={wd_id} doesn't exist", "error")
+            if "url" in session:
+                return redirect(session["url"])
+            return redirect(url_for(".index"))
+        if form.delete.data:
+            book = Book.query.filter_by(id=word.book_id).first()
+            prac = (
+                Practice.query.filter_by(word_id=word.id)
+                .filter_by(user_id=current_user.id)
+                .first()
+            )
+            if prac:
+                db.session.delete(prac)
+            db.session.delete(word)
+            db.session.commit()
+            flash(f"Word {word.word} deleted", "success")
+            if "url" in session and len(book.words) > 0:
+                return redirect(session["url"])
+            return redirect(url_for(".index"))
+        word.word = form.word.data.strip()
+        word.definition = form.definition.data.strip()
+        word.sample = form.sample.data.strip()
+        db.session.add(word)
+
+        if prac:
+            prac.score_w2d = form.score_w2d.data
+            prac.score_d2w = form.score_d2w.data
+            prac.score_type = form.score_type.data
+            db.session.add(prac)
+        db.session.commit()
+        flash(f"Word: {word.word} updated", "success")
+        if "url" in session:
+            return redirect(session["url"])
+        return redirect(url_for(".index"))
+    form.word.data = word.word
+    form.definition.data = word.definition
+    form.sample.data = word.sample
+    if prac:
+        form.score_w2d.data = prac.score_w2d
+        form.score_d2w.data = prac.score_d2w
+        form.score_type.data = prac.score_type
+    else:
+        form.score_w2d.data = 0
+        form.score_d2w.data = 0
+        form.score_type.data = 0
+    return render_template("editword.html", form=form, word=word)
