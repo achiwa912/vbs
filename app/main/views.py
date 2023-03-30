@@ -2,7 +2,14 @@ from flask import render_template, session, redirect, url_for, flash
 from flask_login import current_user, login_required
 from config import config
 from . import main
-from .forms import EditBookForm, EditWordForm, AddWordForm, LoadFileForm
+from .forms import (
+    EditBookForm,
+    EditWordForm,
+    AddWordForm,
+    LoadFileForm,
+    PracTypeForm,
+    RepeatForm,
+)
 from .. import db
 from ..models import Book, Word, Practice, User, fill_lwin, create_practices
 
@@ -30,7 +37,7 @@ def book(bk_id):
     return render_template("book.html", bk=bk)
 
 
-@main.route("/practice/<bk_id>/<ptype>")
+@main.route("/practice/<bk_id>/<ptype>", methods=["GET", "POST"])
 @login_required
 def practice(bk_id, ptype):
     bk = Book.query.filter_by(id=bk_id).first_or_404()
@@ -57,7 +64,46 @@ def practice(bk_id, ptype):
         .filter_by(word_id=word.id)
         .first()
     )
+    if int(ptype) == 2:  # type word
+        form = PracTypeForm()
+        if form.validate_on_submit():
+            if form.word.data.strip() == word.word:
+                prac.score_type += 1
+                db.session.add(prac)
+                db.session.commit()
+                session["lwin"].pop(session["index"])
+                fill_lwin(bk.id, int(ptype))
+                correct = True
+            else:
+                session["index"] += 1
+                if session["index"] >= len(session["lwin"]):
+                    session["index"] = 0
+                correct = False
+            return redirect(f"/repeat/{word.id}/{correct}")
+        return render_template(
+            "practice-type.html", bk=bk, word=word, prac=prac, form=form
+        )
     return render_template("practice.html", bk=bk, word=word, prac=prac, ptype=ptype)
+
+
+@main.route("/repeat/<wd_id>/<correct>", methods=["GET", "POST"])
+@login_required
+def repeat(wd_id, correct):
+    word = Word.query.filter_by(id=wd_id).first()
+    bk = Book.query.filter_by(id=word.book_id).first()
+    prac = (
+        Practice.query.filter_by(word_id=word.id)
+        .filter_by(user_id=current_user.id)
+        .first()
+    )
+    form = RepeatForm()
+    if form.validate_on_submit():
+        if "url" in session:
+            return redirect(session["url"])
+        return redirect(url_for(".index"))
+    return render_template(
+        "repeat.html", bk=bk, word=word, prac=prac, form=form, correct=correct
+    )
 
 
 @main.route("/practice-oncemore")

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% import "bootstrap5/form.html" as wtf %}
+
+{% block page_content %}
+<br>
+<div class="page-header">
+  {% if correct == "True" %}
+  <h1>Correct!</h1>
+  {% else %}
+  <h1>Incorrect!</h1>
+  {% endif %}
+</div>
+Let's type the word four times.
+<div class="card text-white bg-primary mb-8" style="max-width: 60rem;">
+  <div class="card-body">
+    <h4 class="card-text">{{ word.word }}</h4>
+    {{ word.definition }} - {{ word.sample }}
+  </div>
+</div>
+<div class="col-md-8">
+  {{ wtf.render_form(form) }}
+</div>
+
+<hr>
+<p class="text-secondary">
+  for debug -
+  <br>
+  index: {{ session["index"] }} - {{ session["lwin"] }}, 
+  prac: {{ prac }}, {{ word }}
+</p>
+
+{% endblock %}

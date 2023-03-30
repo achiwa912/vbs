@@ -7,7 +7,7 @@ from wtforms import (
     IntegerField,
     FileField,
 )
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, EqualTo
 
 
 class EditBookForm(FlaskForm):
@@ -36,4 +36,23 @@ class EditWordForm(FlaskForm):
 
 class LoadFileForm(FlaskForm):
     filename = FileField()
+    submit = SubmitField("Submit")
+
+
+class PracTypeForm(FlaskForm):
+    word = StringField("Your answer?", render_kw={"autofocus": True})
+    submit = SubmitField("Submit")
+
+
+class RepeatForm(FlaskForm):
+    word1 = StringField("", validators=[DataRequired()], render_kw={"autofocus": True})
+    word2 = StringField(
+        "", validators=[DataRequired(), EqualTo("word1", message="spell incorrect")]
+    )
+    word3 = StringField(
+        "", validators=[DataRequired(), EqualTo("word1", message="spell incorrect")]
+    )
+    word4 = StringField(
+        "", validators=[DataRequired(), EqualTo("word1", message="spell incorrect")]
+    )
     submit = SubmitField("Submit")

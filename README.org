@@ -1,10 +1,10 @@
 * Vocabull (server)
 
 * Overview
-[[https://github.com/achiwa912/vbs][Vocabull (server)]] is a flash card web application for your vocabulary building.  It has three modes:
-1. Flash cards - word \to definition
-2. Flash cards - definition \to word
-3. Type words from the definitions (coming soon)
+[[https://github.com/achiwa912/vbs][Vocabull (server)]] is a flashcard web application for your vocabulary building.  It has three modes:
+1. Flashcard - word \to definition
+2. Flashcard - definition \to word
+3. Type words from the definitions
 
 [[./images/vocabull_sample.jpg]]
 
@@ -46,11 +46,9 @@ lassitude	weariness, fatigue	[a feeling of *********]
 deleterious	bad, harmful	[a *********** effect on health]
 #+end_src
 - Navigate to a book page
-- Click =Load from file=
-- Click =Browse...= and choose a file
-- Click =Submit=
+- Click =Load from file= > click =Browse...= > choose a file > click =Submit=
 
-*** Practice
+*** Practice flashcards
 - Click =Practice= menu > choose =word to def= or =def to word=
   - You will be navigated to the practice page
 - Click left/right edge of the word card to flip and show the answer
@@ -61,6 +59,15 @@ deleterious	bad, harmful	[a *********** effect on health]
   - You won't see the word for this round as Vocabull presents to you 10-lowest-score words
 - If you know the word, click =Knew it!= to increase the score by 5!
 - Click =Back to book= to go back to the selected book
+
+*** Practice type spells
+- Click =Practice= menu > choose =type word=
+- Vocabull shows definition of a word
+- Type your answer and click =Submit= (or push return key)
+- It shows corret/incorrect and ask you to type the word 4 times, anyway
+  - If incorrect, you'll see the word again after a while
+- It moves to the next word
+
 
 * Usage
 ** Setup server
