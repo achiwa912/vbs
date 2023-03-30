@@ -62,9 +62,10 @@ deleterious	bad, harmful	[a *********** effect on health]
 
 *** Practice type spells
 - Click =Practice= menu > choose =type word=
-- Vocabull shows definition of a word
-- Type your answer and click =Submit= (or push return key)
-- It shows corret/incorrect and ask you to type the word 4 times, anyway
+- Vocabull shows the definition of a word and asks you to type the word
+- Type your answer and click =Submit= (or push =return= key)
+- It shows corret/incorrect and asks you to type the word 4 times, anyway
+  - Tip: use =tab= key to move from an input box to another
   - If incorrect, you'll see the word again after a while
 - It moves to the next word
 
