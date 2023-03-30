@@ -1,18 +1,16 @@
 * Vocabull (server)
 
 * Overview
-[[https://github.com/achiwa912/vbs][Vocabull (server)]] is a web application for your vocabulary building.  It will have three modes:
-1. Flash cards - word to definition
-2. Flash cards - definition to word
-3. Type words from the definitions (not ready yet)
+[[https://github.com/achiwa912/vbs][Vocabull (server)]] is a flash card web application for your vocabulary building.  It will have three modes:
+1. Flash cards - word \to definition
+2. Flash cards - definition \to word
+3. Type words from the definitions (coming soon)
 
 [[./images/vocabull_sample.jpg]]
 
-All grayed-out buttons are not implemented yet.
-
 ** How Vocabull works
-- Vocabull keeps track of 10 (default) recent words that you are working on
-- You'll see these 10 words repeatedly until you "memorize" them (for now)
+- Vocabull keeps track of 10 recent unfamiliar words that you are working on
+- You'll see these 10 words repeatedly until you "memorize" them for now
 - You'll see memorized words again after the entire words are memorized
 - You can skip known words (to you) for five entire rounds; or, you can remove the words
 
