@@ -31,6 +31,25 @@
 - Type word and definition, and then click =Submit= \to Now, =Practice= is activated
 - Add a few more words
 
+*** Optionally, you can load words from file
+- Prepare a word definition file
+  - one word definition per line
+  - a line consists of =word=, =definition= and an optional =sample sentense= separated by a tab (\t)
+  - a line format (=\t= is a tab):
+#+begin_src 
+<word>\t<definition>[\t<sample>]
+#+end_src
+- Example:
+#+begin_src 
+strident	shrill, harsh, rough	[in more ******** tones]
+lassitude	weariness, fatigue	[a feeling of *********]
+deleterious	bad, harmful	[a *********** effect on health]
+#+end_src
+- Navigate to a book page
+- Click =Load from file=
+- Click =Browse...= and choose a file
+- Click =Submit=
+
 *** Practice
 - Click =Practice= menu > choose =word to def= or =def to word=
   - You will be navigated to the practice page
