@@ -33,7 +33,7 @@ config_base = {
     "production": ProductionConfig,
     "default": DevelopmentConfig,
     "LWIN_SIZE": 10,  # Learning window size
-    "debug": False,
+    "debug": True,
 }
 
 try:
