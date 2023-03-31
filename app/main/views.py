@@ -37,6 +37,7 @@ def book(bk_id):
     bk = Book.query.filter_by(id=bk_id).first_or_404()
     session["lwin"] = []
     session["index"] = 0
+    session["tmp_score"] = 0
     session["url"] = url_for(".book", bk_id=bk_id)
     return render_template("book.html", bk=bk)
 
@@ -73,6 +74,7 @@ def practice(bk_id, ptype):
         if form.validate_on_submit():
             if form.word.data.strip() == word.word:
                 prac.score_type += 1
+                session["tmp_score"] += 1
                 db.session.add(prac)
                 db.session.commit()
                 session["lwin"].pop(session["index"])
@@ -130,6 +132,7 @@ def practice_memorized(ptype, plus):
     practice = Practice.query.filter(
         Practice.word_id == word_id and Practice.user_id == current_user.id
     ).first()
+    session["tmp_score"] += 1
     if int(ptype) == 2:  # type Word
         practice.score_type += int(plus)
     elif int(ptype) == 1:  # d2w
