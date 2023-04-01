@@ -42,4 +42,5 @@ try:
 except Exception as e:
     pass
 
-config = config_base | secrets
+# config = config_base | secrets
+config = config_base
