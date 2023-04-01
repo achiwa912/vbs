@@ -40,7 +40,6 @@ try:
     with open("secrets.json") as f:
         secrets = json.load(f)
 except Exception as e:
-    print(f"Can't load secrets.json: {e}")
-    raise e
+    pass
 
 config = config_base | secrets
