@@ -32,15 +32,17 @@ config_base = {
     "testing": TestingConfig,
     "production": ProductionConfig,
     "default": DevelopmentConfig,
+    "UPLOAD_FOLDER": "~/tmp",
+    "UPLOAD_EXTENSIONS": [".txt"],
     "LWIN_SIZE": 10,  # Learning window size
     "debug": False,
 }
 
 try:
+    secrets = {}
     with open("secrets.json") as f:
         secrets = json.load(f)
 except Exception as e:
     pass
 
-# config = config_base | secrets
-config = config_base
+config = config_base | secrets

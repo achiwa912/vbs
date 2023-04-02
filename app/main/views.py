@@ -1,5 +1,7 @@
-from flask import render_template, session, redirect, url_for, flash
+import os
+from flask import render_template, session, redirect, url_for, flash, request
 from flask_login import current_user, login_required
+from werkzeug.utils import secure_filename
 from config import config
 from . import main
 from .forms import (
@@ -282,16 +284,27 @@ def load_file(bk_id):
     Load words from a file
     """
     form = LoadFileForm()
-    if form.validate_on_submit():
-        filename = form.filename.data.filename
-        bk = Book.query.filter_by(id=bk_id).first()
-        if not bk:
-            flash(f"Book id={bk_id} not found", "error")
-            if "url" in session:
-                return redirect(session["url"])
-            return redirect(url_for(".index"))
-        bk.load_from_file(filename)
+    if request.method == "POST":
+        uploaded_file = request.files["file"]
+        filename = secure_filename(uploaded_file.filename)
+        if filename != "":
+            file_ext = os.path.splitext(filename)[1]
+            if file_ext not in config["UPLOAD_EXTENSIONS"]:
+                return "Invalid file", 400
+            bk = Book.query.filter_by(id=bk_id).first()
+            if not bk:
+                flash(f"Book id={bk_id} not found", "error")
+                if "url" in session:
+                    return redirect(session["url"])
+                return redirect(url_for(".index"))
+            bk.load_from_stream(uploaded_file.stream)
+        else:
+            return "", 204
         if "url" in session:
             return redirect(session["url"])
         return redirect(url_for(".index"))
     return render_template("loadfile.html", form=form, bk_id=bk_id)
+
+
+def allowed_file(filename):
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in {"txt"}

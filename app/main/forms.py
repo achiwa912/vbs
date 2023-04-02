@@ -1,11 +1,11 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField
 from wtforms import (
     StringField,
     SubmitField,
     RadioField,
     BooleanField,
     IntegerField,
-    FileField,
 )
 from wtforms.validators import DataRequired, EqualTo
 

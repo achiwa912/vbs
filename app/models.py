@@ -73,6 +73,26 @@ class Book(db.Model):
         self.createtime = datetime.utcnow()
         db.session.add(self)
 
+    def load_from_stream(self, stream):
+        """
+        Load word data from stream
+        """
+        for line in stream:
+            llist = line.decode("utf8").split("\t")
+            if len(llist) < 2:
+                continue
+            # same word in this book?
+            if Word.query.filter_by(book_id=self.id).filter_by(word=llist[0]).first():
+                continue
+            if len(llist) > 2:
+                word = Word(
+                    llist[0].strip(), llist[1].strip(), llist[2].strip(), self.id
+                )
+            else:
+                word = Word(llist[0].strip(), llist[1].strip(), "", self.id)
+            db.session.add(word)
+        db.session.commit()
+
     def load_from_file(self, file_path):
         """
         Load word data from a file
