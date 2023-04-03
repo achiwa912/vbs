@@ -83,6 +83,7 @@ def practice(bk_id, ptype):
                 fill_lwin(bk.id, int(ptype))
                 correct = True
                 flash(f"Correct! -- type the word 4 times, anyway", "success")
+                session["tmp_score"] += 1
             else:
                 session["index"] += 1
                 if session["index"] >= len(session["lwin"]):
