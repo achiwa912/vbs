@@ -16,7 +16,7 @@
 
 * Quick Start
 *** Register and login
-- Visit =localhost:5000= or a URL on which Vocabull is served
+- You can try [[https://achiwa912.pythonanywhere.com]]
 - Click the menu icon at the top right corner > =Login= > =Click here to register=
 - Register your account
 - Login
@@ -67,10 +67,11 @@ deleterious	bad, harmful	[a *********** effect on health]
 - It moves to the next word
 
 
-* Usage
-** Setup server
+* Setup server
 - Setup Python 3.11 or later
 - git clone repository
+: git clone https://github.com/achiwa912/vbs.git
+or
 : git clone git@github.com:achiwa912/vbs.git
 - create virtual environment (recommended)
 #+begin_src bash
@@ -96,13 +97,6 @@ export FLASK_DEBUG=1  # optional
 #+end_src
 - Initial setup
 : flask initial-setup
-- Create =secrets.json= file
-#+begin_src
-{
-    "ADMIN_USER": "<admin_user>",
-    "ADMIN_PASS": "<admin_password>"
-}
-#+end_src
 - Run app
 : flask run
 or use a proper web server
