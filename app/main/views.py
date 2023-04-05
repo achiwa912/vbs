@@ -76,7 +76,6 @@ def practice(bk_id, ptype):
         if form.validate_on_submit():
             if form.word.data.strip() == word.word:
                 prac.score_type += 1
-                session["tmp_score"] += 1
                 db.session.add(prac)
                 db.session.commit()
                 session["lwin"].pop(session["index"])
