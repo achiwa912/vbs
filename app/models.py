@@ -1,3 +1,4 @@
+import random
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import session
@@ -247,32 +248,35 @@ def fill_lwin(book_id, ptype):
     if addnum <= 0:
         return
     if int(ptype) == 2:  # type
-        practices = (
+        prac_lst = (
             Practice.query.join(User, User.id == Practice.user_id)
             .join(Word, Word.id == Practice.word_id)
             .filter(Word.book_id == book_id and User.id == current_user.id)
             .order_by(Practice.score_type)
-            .limit(config["LWIN_SIZE"])
+            .group_by(Practice.score_type)
             .all()
         )
+        prac_cntlst = [prac.score_type for prac in prac_lst]
     elif int(ptype) == 1:  # d2w
-        practices = (
+        prac_lst = (
             Practice.query.join(User, User.id == Practice.user_id)
             .join(Word, Word.id == Practice.word_id)
             .filter(Word.book_id == book_id and User.id == current_user.id)
             .order_by(Practice.score_d2w)
-            .limit(config["LWIN_SIZE"])
+            .group_by(Practice.score_d2w)
             .all()
         )
+        prac_cntlst = [prac.score_d2w for prac in prac_lst]
     else:  # w2d
-        practices = (
+        prac_lst = (
             Practice.query.join(User, User.id == Practice.user_id)
             .join(Word, Word.id == Practice.word_id)
             .filter(Word.book_id == book_id and User.id == current_user.id)
             .order_by(Practice.score_w2d)
-            .limit(config["LWIN_SIZE"])
+            .group_by(Practice.score_w2d)
             .all()
         )
+        prac_cntlst = [prac.score_w2d for prac in prac_lst]
     """
     Wow, I had a really tough bug here.
     NEVER directly update session context variable if it's a list.
@@ -281,11 +285,48 @@ def fill_lwin(book_id, ptype):
     https://stackoverflow.com/questions/61972873/flask-session-lost-data
     """
     lwin = session["lwin"][:]
-    for practice in practices:
-        word = Word.query.filter_by(id=practice.word_id).first()
-        if word.id not in session["lwin"]:
-            lwin.append(word.id)
-    session["lwin"] = lwin
+    for prac_cnt in prac_cntlst:
+        if int(ptype) == 2:  # type word
+            practices = (
+                Practice.query.join(User, User.id == Practice.user_id)
+                .join(Word, Word.id == Practice.word_id)
+                .filter(
+                    Word.book_id == book_id
+                    and User.id == current_user.id
+                    and Practice.score_type == prac_cnt
+                )
+                .all()
+            )
+        elif int(ptype) == 1:  # d2w
+            practices = (
+                Practice.query.join(User, User.id == Practice.user_id)
+                .join(Word, Word.id == Practice.word_id)
+                .filter(
+                    Word.book_id == book_id
+                    and User.id == current_user.id
+                    and Practice.score_d2w == prac_cnt
+                )
+                .all()
+            )
+        else:  # w2d
+            practices = (
+                Practice.query.join(User, User.id == Practice.user_id)
+                .join(Word, Word.id == Practice.word_id)
+                .filter(
+                    Word.book_id == book_id
+                    and User.id == current_user.id
+                    and Practice.score_w2d == prac_cnt
+                )
+                .all()
+            )
+        random.shuffle(practices)
+        for prac in practices:
+            word = Word.query.filter_by(id=prac.word_id).first()
+            if word.id not in lwin:
+                lwin.append(word.id)
+                if len(lwin) >= config["LWIN_SIZE"]:
+                    session["lwin"] = lwin
+                    return
 
 
 def create_practices(book, user):
