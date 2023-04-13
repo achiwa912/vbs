@@ -20,6 +20,11 @@ class Practice(db.Model):
         self.user_id = user_id
         self.word_id = word_id
 
+    def __repr__(self):
+        return (
+            f"<Prac {self.word_id} {self.score_w2d}/{self.score_d2w}/{self.score_type}>"
+        )
+
 
 class Word(db.Model):
     __tablename__ = "words"
@@ -251,7 +256,8 @@ def fill_lwin(book_id, ptype):
         prac_lst = (
             Practice.query.join(User, User.id == Practice.user_id)
             .join(Word, Word.id == Practice.word_id)
-            .filter(Word.book_id == book_id and User.id == current_user.id)
+            .filter(Word.book_id == book_id)
+            .filter(User.id == current_user.id)
             .order_by(Practice.score_type)
             .group_by(Practice.score_type)
             .all()
@@ -261,7 +267,8 @@ def fill_lwin(book_id, ptype):
         prac_lst = (
             Practice.query.join(User, User.id == Practice.user_id)
             .join(Word, Word.id == Practice.word_id)
-            .filter(Word.book_id == book_id and User.id == current_user.id)
+            .filter(Word.book_id == book_id)
+            .filter(User.id == current_user.id)
             .order_by(Practice.score_d2w)
             .group_by(Practice.score_d2w)
             .all()
@@ -271,7 +278,8 @@ def fill_lwin(book_id, ptype):
         prac_lst = (
             Practice.query.join(User, User.id == Practice.user_id)
             .join(Word, Word.id == Practice.word_id)
-            .filter(Word.book_id == book_id and User.id == current_user.id)
+            .filter(Word.book_id == book_id)
+            .filter(User.id == current_user.id)
             .order_by(Practice.score_w2d)
             .group_by(Practice.score_w2d)
             .all()
@@ -290,33 +298,27 @@ def fill_lwin(book_id, ptype):
             practices = (
                 Practice.query.join(User, User.id == Practice.user_id)
                 .join(Word, Word.id == Practice.word_id)
-                .filter(
-                    Word.book_id == book_id
-                    and User.id == current_user.id
-                    and Practice.score_type == prac_cnt
-                )
+                .filter(Word.book_id == book_id)
+                .filter(User.id == current_user.id)
+                .filter(Practice.score_type == prac_cnt)
                 .all()
             )
         elif int(ptype) == 1:  # d2w
             practices = (
                 Practice.query.join(User, User.id == Practice.user_id)
                 .join(Word, Word.id == Practice.word_id)
-                .filter(
-                    Word.book_id == book_id
-                    and User.id == current_user.id
-                    and Practice.score_d2w == prac_cnt
-                )
+                .filter(Word.book_id == book_id)
+                .filter(User.id == current_user.id)
+                .filter(Practice.score_d2w == prac_cnt)
                 .all()
             )
         else:  # w2d
             practices = (
                 Practice.query.join(User, User.id == Practice.user_id)
                 .join(Word, Word.id == Practice.word_id)
-                .filter(
-                    Word.book_id == book_id
-                    and User.id == current_user.id
-                    and Practice.score_w2d == prac_cnt
-                )
+                .filter(Word.book_id == book_id)
+                .filter(User.id == current_user.id)
+                .filter(Practice.score_w2d == prac_cnt)
                 .all()
             )
         random.shuffle(practices)
