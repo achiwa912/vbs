@@ -40,19 +40,31 @@ class LoadFileForm(FlaskForm):
 
 
 class PracTypeForm(FlaskForm):
-    word = StringField("Your answer?", render_kw={"autofocus": True})
+    word = StringField(
+        "Your answer?", render_kw={"autofocus": True, "autocomplete": "off"}
+    )
     submit = SubmitField("Submit")
 
 
 class RepeatForm(FlaskForm):
-    word1 = StringField("", validators=[DataRequired()], render_kw={"autofocus": True})
+    word1 = StringField(
+        "",
+        validators=[DataRequired()],
+        render_kw={"autofocus": True, "autocomplete": "off"},
+    )
     word2 = StringField(
-        "", validators=[DataRequired(), EqualTo("word1", message="spell incorrect")]
+        "",
+        validators=[DataRequired(), EqualTo("word1", message="spell incorrect")],
+        render_kw={"autocomplete": "off"},
     )
     word3 = StringField(
-        "", validators=[DataRequired(), EqualTo("word1", message="spell incorrect")]
+        "",
+        validators=[DataRequired(), EqualTo("word1", message="spell incorrect")],
+        render_kw={"autocomplete": "off"},
     )
     word4 = StringField(
-        "", validators=[DataRequired(), EqualTo("word1", message="spell incorrect")]
+        "",
+        validators=[DataRequired(), EqualTo("word1", message="spell incorrect")],
+        render_kw={"autocomplete": "off"},
     )
     submit = SubmitField("Submit")
