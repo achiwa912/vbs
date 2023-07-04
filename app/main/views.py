@@ -65,6 +65,8 @@ def practice(bk_id, ptype):
         session["index"] = 0
     fill_lwin(bk.id, ptype)
     session["url"] = url_for(".practice", bk_id=bk_id, ptype=ptype)
+    if "url_rep" in session:
+        del session["url_rep"]
     word = Word.query.filter_by(id=session["lwin"][session["index"]]).first()
     prac = (
         Practice.query.filter_by(user_id=current_user.id)
@@ -111,6 +113,7 @@ def repeat(wd_id, correct):
         if "url" in session:
             return redirect(session["url"])
         return redirect(url_for(".index"))
+    session["url_rep"] = url_for(".repeat", wd_id=wd_id, correct=correct)
     return render_template(
         "repeat.html", bk=bk, word=word, prac=prac, form=form, correct=correct
     )
@@ -238,6 +241,10 @@ def edit_word(wd_id):
     if form.validate_on_submit():
         if not word:
             flash(f"Word id={wd_id} doesn't exist", "error")
+            if "url_rep" in session:
+                urlrep = session["url_rep"]
+                session["url_rep"] = ""
+                return redirect(urlrep)
             if "url" in session:
                 return redirect(session["url"])
             return redirect(url_for(".index"))
@@ -245,6 +252,10 @@ def edit_word(wd_id):
             book = Book.query.filter_by(id=word.book_id).first()
             word.delete()
             flash(f"Word {word.word} deleted", "success")
+            if "url_rep" in session:
+                urlrep = session["url_rep"]
+                session["url_rep"] = ""
+                return redirect(urlrep)
             if "url" in session and len(book.words) > 0:
                 return redirect(session["url"])
             return redirect(url_for(".index"))
@@ -260,6 +271,10 @@ def edit_word(wd_id):
             db.session.add(prac)
         db.session.commit()
         flash(f"Word: {word.word} updated", "success")
+        if "url_rep" in session:
+            urlrep = session["url_rep"]
+            session["url_rep"] = ""
+            return redirect(urlrep)
         if "url" in session:
             return redirect(session["url"])
         return redirect(url_for(".index"))
