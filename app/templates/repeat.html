@@ -2,6 +2,19 @@
 {% import "bootstrap5/form.html" as wtf %}
 
 {% block page_content %}
+
+<table class="table table-hover">
+  <tbody>
+    <tr class="table-primary">
+      <th scope="row">today: {{ session['tmp_score'] }}</th>
+      <td>word to def: {{ prac.score_w2d }}</td>
+      <td>def to word: {{ prac.score_d2w }}</td>
+      <td>type word: {{ prac.score_type }}</td>
+    </tr>
+  </tbody>
+</table>
+
+
 {% if correct == "True" %}
 <div class="card text-white bg-success mb-8" style="max-width: 60rem;">
 {% else %}
