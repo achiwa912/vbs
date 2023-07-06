@@ -59,6 +59,7 @@ deleterious	bad, harmful	[a *********** effect on health]
 - Click the word card to flip and show the answer
   - Orange card shows the word, and blue card shows the definition
   - You can flip cards as many as you like
+- Click =Pronunce word= to check the pronunciation
 - If you don't know, click =Once more= so that the word will reappear in the near future
 - If you managed to memorize it, click =Memorized for now= to increase the score by 1
   - You won't see the word for this round as Vocabull presents to you 10-lowest-score words
@@ -72,6 +73,7 @@ deleterious	bad, harmful	[a *********** effect on health]
 - It shows corret/incorrect and asks you to type the word 4 times, anyway
   - Tip: use =tab= or =return= key to move from an input box to another
   - If incorrect, you'll see the word again after a while
+  - Click =Pronunce word= to check the pronunciation
 - It moves to the next word
 
 

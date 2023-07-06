@@ -14,6 +14,8 @@ from .forms import (
 )
 from .. import db
 from ..models import Book, Word, Practice, User, fill_lwin, create_practices
+from gtts import gTTS
+from pygame import mixer
 
 
 @main.route("/", methods=["GET", "POST"])
@@ -290,6 +292,26 @@ def edit_word(wd_id):
         form.score_d2w.data = 0
         form.score_type.data = 0
     return render_template("editword.html", form=form, word=word)
+
+
+@main.route("/pronounce/<wd_id>")
+@login_required
+def pronoucne(wd_id):
+    word = Word.query.filter_by(id=wd_id).first()
+    tts = gTTS(word.word, lang="en")
+    tts.save("tmp.mp3")
+
+    mixer.init()
+    mixer.music.load("tmp.mp3")
+    mixer.music.play()
+
+    if "url_rep" in session:
+        urlrep = session["url_rep"]
+        session["url_rep"] = ""
+        return redirect(urlrep)
+    if "url" in session:
+        return redirect(session["url"])
+    return redirect(url_for(".index"))
 
 
 @main.route("/load-file/<bk_id>", methods=["GET", "POST"])
