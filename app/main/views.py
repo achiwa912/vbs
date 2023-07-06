@@ -1,5 +1,6 @@
 import os
 from flask import render_template, session, redirect, url_for, flash, request
+from flask import Response
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 from config import config
@@ -300,10 +301,20 @@ def pronoucne(wd_id):
     word = Word.query.filter_by(id=wd_id).first()
     tts = gTTS(word.word, lang="en")
     tts.save("tmp.mp3")
+    # tts.write_to_fp(fmp3)
 
-    mixer.init()
-    mixer.music.load("tmp.mp3")
-    mixer.music.play()
+    def generate():
+        with open("tmp.mp3", "rb") as fmp3:
+            data = fmp3.read(1024)
+            while data:
+                yield data
+                data = fmp3.read(1024)
+
+    return Response(generate(), mimetype="audio/mpeg")
+
+    # mixer.init()
+    # mixer.music.load("tmp.mp3")
+    # mixer.music.play()
 
     if "url_rep" in session:
         urlrep = session["url_rep"]
