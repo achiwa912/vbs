@@ -302,7 +302,6 @@ def pronoucne(wd_id):
     word = Word.query.filter_by(id=wd_id).first()
     tts = gTTS(word.word, lang="en")
     tts.save("tmp.mp3")
-    # tts.write_to_fp(fmp3)
 
     def generate():
         with open("tmp.mp3", "rb") as fmp3:
@@ -312,18 +311,6 @@ def pronoucne(wd_id):
                 data = fmp3.read(1024)
 
     return Response(generate(), mimetype="audio/mpeg")
-
-    # mixer.init()
-    # mixer.music.load("tmp.mp3")
-    # mixer.music.play()
-
-    if "url_rep" in session:
-        urlrep = session["url_rep"]
-        session["url_rep"] = ""
-        return redirect(urlrep)
-    if "url" in session:
-        return redirect(session["url"])
-    return redirect(url_for(".index"))
 
 
 @main.route("/load-file/<bk_id>", methods=["GET", "POST"])

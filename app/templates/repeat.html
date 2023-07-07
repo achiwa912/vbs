@@ -30,7 +30,7 @@
 </div>
 
 <hr>
-<a href="/pronounce/{{ word.id }}"><button type="button" class="btn btn-primary">Pronounce word</button></a>
+<a href="#" onclick="javascript:closeOnLoad('/pronounce/{{ word.id }}');"><button type="button" class="btn btn-primary">Pronounce it</button></a>
 <a href="/edit-word/{{ word.id }}"><button type="button" class="btn btn-primary">Edit word</button></a>
 
 <hr>
@@ -41,6 +41,22 @@
   index: {{ session["index"] }} - {{ session["lwin"] }}, 
   prac: {{ prac }}, {{ word }}
 </p>
+
+<script>
+function closeOnLoad(myLink)
+{
+  var newWindow = window.open(myLink, "connectWindow", "width=200,height=100,scrollbars=no");
+  setTimeout(
+             function()
+             {
+               newWindow.close();
+             },
+            3000
+            );
+    return false;
+}
+</script>
+
 {% endif %}
 
 {% endblock %}
