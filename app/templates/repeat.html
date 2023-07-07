@@ -41,6 +41,7 @@
   index: {{ session["index"] }} - {{ session["lwin"] }}, 
   prac: {{ prac }}, {{ word }}
 </p>
+{% endif %}
 
 <script>
 function closeOnLoad(myLink)
@@ -56,7 +57,5 @@ function closeOnLoad(myLink)
     return false;
 }
 </script>
-
-{% endif %}
 
 {% endblock %}
