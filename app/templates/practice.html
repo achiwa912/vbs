@@ -77,7 +77,7 @@
 <a href="/practice-memorized/{{ ptype }}/1"><button type="button" class="btn btn-primary">Memorized for now</button></a>
 <a href="/practice-memorized/{{ ptype }}/5"><button type="button" class="btn btn-info">Knew it!</button></a>
 <hr>
-<a href="#" onclick="javascript:closeOnLoad('/pronounce/{{ word.id }}');"><button type="button" class="btn btn-primary">Pronounce it</button></a>
+<a href="#" onclick="javascript:closeOnLoad('/pronounce/{{ session['username'] }}', {{ session['audio_len'] }});"><button type="button" class="btn btn-primary">Pronounce word</button></a>
 <a href="/edit-word/{{ word.id }}"><button type="button" class="btn btn-primary">Edit word</button></a>
 </p>
 
@@ -88,22 +88,24 @@
   <br>
   index: {{ session["index"] }} - {{ session["lwin"] }}, 
   prac: {{ prac }}, {{ word }}
+  audio_len: {{ session["audio_len"] }}, 
+  username: {{ session["username"] }}
 </p>
 {% endif %}
 
 <script>
-function closeOnLoad(myLink)
-{
-  var newWindow = window.open(myLink, "connectWindow", "width=200,height=100,scrollbars=no");
-  setTimeout(
-             function()
-             {
-               newWindow.close();
-             },
-            3000
-            );
-    return false;
-}
+  function closeOnLoad(myLink, audio_len)
+  {
+      var newWindow = window.open(myLink, "_blank", "width=200,height=100");
+      setTimeout(
+          function()
+          {
+              newWindow.close();
+          },
+	  audio_len + 400
+      );
+      return false;
+  }
 </script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
