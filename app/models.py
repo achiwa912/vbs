@@ -329,6 +329,7 @@ def fill_lwin(book_id, ptype):
                 if len(lwin) >= config["LWIN_SIZE"]:
                     session["lwin"] = lwin
                     return
+        session["lwin"] = lwin
 
 
 def create_practices(book, user):
