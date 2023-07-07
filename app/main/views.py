@@ -51,6 +51,7 @@ def book(bk_id):
 @login_required
 def practice(bk_id, ptype):
     bk = Book.query.filter_by(id=bk_id).first_or_404()
+    session["ptype"] = ptype
 
     # create practices for the book & user
     numprac = (
@@ -254,13 +255,14 @@ def edit_word(wd_id):
         if form.delete.data:
             book = Book.query.filter_by(id=word.book_id).first()
             word.delete()
+            session["lwin"].pop(session["index"])
+            if session["index"] >= len(session["lwin"]):
+                session["index"] = 0
             flash(f"Word {word.word} deleted", "success")
-            if "url_rep" in session:
-                urlrep = session["url_rep"]
-                session["url_rep"] = ""
-                return redirect(urlrep)
             if "url" in session and len(book.words) > 0:
-                return redirect(session["url"])
+                return redirect(
+                    url_for(".practice", bk_id=book.id, ptype=session["ptype"])
+                )
             return redirect(url_for(".index"))
         word.word = form.word.data.strip()
         word.definition = form.definition.data.strip()
