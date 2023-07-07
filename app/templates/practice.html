@@ -79,6 +79,8 @@
 <hr>
 <a href="/pronounce/{{ word.id }}"><button type="button" class="btn btn-primary">Pronounce it</button></a>
 <a href="/edit-word/{{ word.id }}"><button type="button" class="btn btn-primary">Edit word</button></a>
+<a href="#" onclick="javascript:closeOnLoad('/pronounce/{{ word.id }}');"><button type="button" class="btn btn-primary">Pronounce it</button></a>
+
 </p>
 
 <hr>
@@ -90,6 +92,21 @@
   prac: {{ prac }}, {{ word }}
 </p>
 {% endif %}
+
+<script>
+function closeOnLoad(myLink)
+{
+  var newWindow = window.open(myLink, "connectWindow", "width=200,height=100,scrollbars=no");
+  setTimeout(
+             function()
+             {
+               newWindow.close();
+             },
+            3000
+            );
+    return false;
+}
+</script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>

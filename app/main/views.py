@@ -16,7 +16,6 @@ from .forms import (
 from .. import db
 from ..models import Book, Word, Practice, User, fill_lwin, create_practices
 from gtts import gTTS
-from pygame import mixer
 
 
 @main.route("/", methods=["GET", "POST"])
