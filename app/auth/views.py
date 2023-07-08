@@ -2,7 +2,7 @@ from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
 from .. import db
-from ..models import User
+from ..models import User, Book, Word
 from .forms import LoginForm, RegistrationForm, ChangePasswordForm
 
 
@@ -36,6 +36,25 @@ def register():
         user = User(username=form.username.data, password=form.password.data)
         db.session.add(user)
         db.session.commit()
+
+        # add a sample book for a new user
+        bk = Book(f"sample_{user.username}", user.id)
+        db.session.add(bk)
+        db.session.commit()
+
+        # add a few sample words for the sample book
+        word = Word("scurrilous", "coarse, vulgar", "a scurrilous language", bk.id)
+        db.session.add(word)
+        word = Word("inane", "foolish, silly", "inane questions", bk.id)
+        db.session.add(word)
+        word = Word("indigent", "poor, needy", "the indigent artist", bk.id)
+        db.session.add(word)
+        word = Word("virulent", "full of hate, harmful", "a virulent disease", bk.id)
+        db.session.add(word)
+        word = Word("prolific", "producing abundantly", "a prolific novelist", bk.id)
+        db.session.add(word)
+        db.session.commit()
+
         flash("You can now login.", "success")
         return redirect(url_for("auth.login"))
     return render_template("auth/register.html", form=form)

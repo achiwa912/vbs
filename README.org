@@ -29,7 +29,44 @@ I believe it is better than simple flashcards because:
 - Register your account
 - Login
 
+*** Choose a sample book
+- At first, a sample book (ie, sample_<your_user_name>) is registerd and it has 5 wordsin it
+[[./images/vbs_samplebook.jpg]]
+
+- Click the sample book
+
+*** Practice flashcards
+- Click =Practice= menu > choose =word to def= or =def to word=
+  - You will be navigated to the practice page
+[[./images/vbs_samplewords.jpg]]
+- Click the word card to flip and show the answer
+  - Orange card shows the word, and blue card shows the definition
+  - You can flip cards as many as you like
+[[./images/vbs_w2d.jpg]]
+- Click =Pronounce word= to check the pronounciation
+  - A small pop-up will open for a few sec and it will automatically close
+- If you don't know, click =Once more= so that the word will reappear in the near future
+- If you managed to memorize it, click =Memorized for now= to increase the score by 1
+  - You won't see the word for this round as Vocabull presents to you 10-lowest-score words
+- If you know the word, click =Knew it!= to increase the score by 5!
+  - So, you won't see the word for 5 rounds
+- Click =Back to book= to go back to the selected book
+
+*** Practice type spells
+- Click =Practice= menu > choose =type word=
+- Vocabull shows the definition of a word and asks you to type the word
+[[./images/vbs_type.jpg]]
+- Type your answer and click =Submit= (or push =return= key)
+- It shows corret/incorrect and asks you to type the word 4 times, anyway
+  - Tip: use =tab= or =return= key to move from an input box to another
+  - If incorrect, you'll see the word again after a while
+  - Click =Pronunce word= to check the pronunciation
+[[./images/vbs_repeat.jpg]]
+- It moves to the next word
+
 *** Create a book and add words
+Also, you can create your own book and register words.
+
 - Click My Books > =Add= button
 - Type a book name and click =Submit=
 - Click the newly created book card > click =Add word=
@@ -52,31 +89,6 @@ deleterious	bad, harmful	[a *********** effect on health]
 #+end_src
 - Navigate to a book page
 - Click =Load from file= > click =Browse...= > choose a file > click =Submit=
-
-*** Practice flashcards
-- Click =Practice= menu > choose =word to def= or =def to word=
-  - You will be navigated to the practice page
-- Click the word card to flip and show the answer
-  - Orange card shows the word, and blue card shows the definition
-  - You can flip cards as many as you like
-- Click =Pronounce word= to check the pronounciation
-  - A small pop-up will open for a few sec and it will automatically close
-- If you don't know, click =Once more= so that the word will reappear in the near future
-- If you managed to memorize it, click =Memorized for now= to increase the score by 1
-  - You won't see the word for this round as Vocabull presents to you 10-lowest-score words
-- If you know the word, click =Knew it!= to increase the score by 5!
-- Click =Back to book= to go back to the selected book
-
-*** Practice type spells
-- Click =Practice= menu > choose =type word=
-- Vocabull shows the definition of a word and asks you to type the word
-- Type your answer and click =Submit= (or push =return= key)
-- It shows corret/incorrect and asks you to type the word 4 times, anyway
-  - Tip: use =tab= or =return= key to move from an input box to another
-  - If incorrect, you'll see the word again after a while
-  - Click =Pronunce word= to check the pronunciation
-- It moves to the next word
-
 
 * Setup server
 - Setup Python 3.11 or later
