@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% import "bootstrap5/form.html" as form %}
+{% import "bootstrap5/form.html" as wtf %}
 
 {% block title %}Mntr{% endblock %}
 
@@ -22,6 +22,13 @@
   </div>
 </a>
 {% endfor %}
+<hr>
+<h2>Read it aloud!</h2>
+<div class="col-md-10">
+  {{ wtf.render_form(form) }}
+</div>
+<br>
+Use back button to go back to this page...sorry...
 {% endif %}
 <hr>
 {% endblock %}

@@ -6,6 +6,7 @@ from wtforms import (
     RadioField,
     BooleanField,
     IntegerField,
+    TextAreaField,
 )
 from wtforms.validators import DataRequired, EqualTo
 
@@ -67,4 +68,9 @@ class RepeatForm(FlaskForm):
         validators=[DataRequired(), EqualTo("word1", message="spell incorrect")],
         render_kw={"autocomplete": "off"},
     )
+    submit = SubmitField("Submit")
+
+
+class ReadAloudForm(FlaskForm):
+    text = TextAreaField("", validators=[DataRequired()])
     submit = SubmitField("Submit")

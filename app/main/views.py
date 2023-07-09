@@ -12,6 +12,7 @@ from .forms import (
     LoadFileForm,
     PracTypeForm,
     RepeatForm,
+    ReadAloudForm,
 )
 from .. import db
 from ..models import Book, Word, Practice, User, fill_lwin, create_practices
@@ -21,6 +22,7 @@ from mutagen.mp3 import MP3
 
 @main.route("/", methods=["GET", "POST"])
 def index():
+    form = ReadAloudForm()
     if config["debug"]:
         session["debug"] = True
     else:
@@ -28,11 +30,29 @@ def index():
     my_books = []
     if current_user.is_authenticated:
         my_books = Book.query.filter_by(owner_id=current_user.id).all()
+    if form.validate_on_submit():
+        text = form.text.data[:1024]
+
+        path = f"{current_user.username}.mp3"
+        tts = gTTS(text, lang="en")
+        tts.save(path)
+
+        try:
+            audio = MP3(path)
+            length = int(audio.info.length * 1000)
+        except:
+            length = 3000  # 3 sec
+        session["audio_len"] = length
+        session["username"] = current_user.username
+
+        return redirect(url_for(".pronounce", username=current_user.username))
+
     return render_template(
         "index.html",
         name=session.get("name"),
         known=session.get("known", False),
         my_books=my_books,
+        form=form,
     )
 
 
@@ -312,7 +332,7 @@ def edit_word(wd_id):
 
 @main.route("/pronounce/<username>")
 @login_required
-def pronoucne(username):
+def pronounce(username):
     def generate():
         path = f"{username}.mp3"
         with open(path, "rb") as fmp3:

@@ -30,7 +30,7 @@ I believe it is better than simple flashcards because:
 - Login
 
 *** Choose a sample book
-- At first, a sample book (ie, sample_<your_user_name>) is registerd and it has 5 wordsin it
+- At first, a sample book (ie, sample_<your_user_name>) is registerd and it has 5 words in it
 [[./images/vbs_samplebook.jpg]]
 
 - Click the sample book
