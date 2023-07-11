@@ -91,7 +91,8 @@ deleterious	bad, harmful	[a *********** effect on health]
 - Click =Load from file= > click =Browse...= > choose a file > click =Submit=
 
 ** Read it aloud! feature (new)
-I recently added Read it aloud feature. Vocabull reads aloud words and/or sentences. I think it is a convenient feature if you are a non-native English learner. 
+I recently added a new feature, =Read it aloud!= Vocabull reads aloud words and/or sentences. I think it is a convenient feature if you are a non-native English learner. 
+
 [[./images/vbs_readaloud.jpg]]
 
 - On the top page, you'll see Read it aloud! area under My Books book list.
