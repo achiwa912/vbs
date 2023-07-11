@@ -17,7 +17,7 @@ I believe it is better than simple flashcards because:
 [[./images/vocabull_sample.jpg]]
 
 ** How Vocabull works
-- Vocabull randomly present to you words that have the lowest "memorized" score
+- Vocabull randomly presents to you words that have the lowest "memorized" score
 - Vocabull keeps track of 10 recent unfamiliar words that you are working on
 - You'll see these 10 words repeatedly until you "memorize" them for now
 - You'll see memorized words again after the entire words are memorized for the round
@@ -136,8 +136,10 @@ Vocabull Server is under [[https://en.wikipedia.org/wiki/MIT_License][MIT licens
 * Contact
 Kyosuke Achiwa - achiwa912+gmail.com (please replace + with @)
 
-Project Link: [[https://github.com/achiwa912/vbs]]
+Project link: [[https://github.com/achiwa912/vbs]]
+Blog article: https://achiwa912.github.io/vbs_eng.html
 
 * Acknowledgments
-- Vocabull Server uses user management and other parts from the fabulous =Flask Web Development= (by Miguel Grinberg) [[https://www.oreilly.com/library/view/flask-web-development/9781491991725/][book]] and [[https://github.com/miguelgrinberg/flasky][companion github repository]]
-- Vocabull Server uses a bootstrap 4 theme =United= from [[bootswatch CDN]]
+- Vocabull uses user management and other parts from the fabulous =Flask Web Development= (by Miguel Grinberg) [[https://www.oreilly.com/library/view/flask-web-development/9781491991725/][book]] and [[https://github.com/miguelgrinberg/flasky][companion github repository]]
+- Vocabull uses a bootstrap 4 theme =United= from [[bootswatch CDN]]
+- Vocabull uses [[https://pypi.org/project/gTTS/][Google Text-to Speech]] to read aloud words
