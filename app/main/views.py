@@ -1,6 +1,7 @@
 import os
+import json
 from flask import render_template, session, redirect, url_for, flash, request
-from flask import Response
+from flask import Response, jsonify
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 from config import config
@@ -373,5 +374,111 @@ def load_file(bk_id):
     return render_template("loadfile.html", form=form, bk_id=bk_id)
 
 
+@main.route("/import", methods=["GET", "POST"])
+@login_required
+def import_restore():
+    """
+    Import and restore books and progress from a JSON file
+    """
+    form = LoadFileForm()
+    if request.method == "POST":
+        uploaded_file = request.files["file"]
+        filename = secure_filename(uploaded_file.filename)
+        if filename != "":
+            file_ext = os.path.splitext(filename)[1]
+            if file_ext.lower() != ".json":
+                return "Invalid file", 400
+            try:
+                idic = json.load(uploaded_file)
+            except:
+                return "Invalid file contents", 400
+            for book_name, word_items in idic.items():
+                bk = (
+                    Book.query.filter_by(name=book_name)
+                    .filter_by(owner_id=current_user.id)
+                    .first()
+                )
+                if not bk:
+                    bk = Book(book_name, current_user.id)
+                    db.session.add(bk)
+                    db.session.commit()
+                for word_item in word_items:
+                    word = (
+                        Word.query.filter_by(word=word_item[0])
+                        .filter_by(book_id=bk.id)
+                        .first()
+                    )
+                    if not word:
+                        word = Word(word_item[0], word_item[1], word_item[2], bk.id)
+                        db.session.add(word)
+                        db.session.commit()
+                        prac = Practice(current_user.id, word.id)
+                        prac.score_w2d = word_item[3]
+                        prac.score_d2w = word_item[4]
+                        prac.score_type = word_item[5]
+                        db.session.add(prac)
+                        db.session.commit()
+                    else:
+                        word.definition = word_item[1]
+                        word.sample = word_item[2]
+                        db.session.add(word)
+                        prac = (
+                            Practice.query.filter_by(word_id=word.id)
+                            .filter_by(user_id=current_user.id)
+                            .first()
+                        )
+                        if not prac:
+                            prac = Practice(current_user.id, word.id)
+                        prac.score_w2d = max(word_item[3], prac.score_w2d)
+                        prac.score_d2w = max(word_item[4], prac.score_d2w)
+                        prac.score_type = max(word_item[5], prac.score_type)
+                        db.session.add(prac)
+                        db.session.commit()
+        else:
+            return "", 204  # No content
+        return redirect(url_for(".index"))
+    return render_template("import.html", form=form)
+
+
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in {"txt"}
+
+
+@main.route("/export")
+@login_required
+def export():
+    """
+    Export books and progress to a local JSON file
+    """
+    exp_dic = {}
+    my_books = Book.query.filter_by(owner_id=current_user.id).all()
+    for my_book in my_books:
+        exp_dic[my_book.name] = []
+        words = Word.query.filter_by(book_id=my_book.id).all()
+        for word in words:
+            prac = (
+                Practice.query.filter_by(user_id=current_user.id)
+                .filter_by(word_id=word.id)
+                .first()
+            )
+            if prac:
+                exp_dic[my_book.name].append(
+                    (
+                        word.word,
+                        word.definition,
+                        word.sample,
+                        prac.score_w2d,
+                        prac.score_d2w,
+                        prac.score_type,
+                    )
+                )
+            else:
+                exp_dic[my_book.name].append(
+                    (word.word, word.definition, word.sample, 0, 0, 0)
+                )
+    exp_json = json.dumps(exp_dic)
+    return Response(
+        exp_json,
+        mimetype="application/json",
+        headers={"Content-Disposition": "attachment;filename=vocabull.json"},
+    )

@@ -8,6 +8,7 @@
 {% if current_user.is_authenticated %}
 <h2>My Books <a href="/add-book"><button type="button" class="btn btn-primary">Add</button></a></h2>
 <hr>
+<p>Choose a book to practice.</p>
 
 {% for my_book in my_books %}
 <a href="/book/{{ my_book.id }}">
@@ -22,13 +23,28 @@
   </div>
 </a>
 {% endfor %}
-<hr>
+
 <h2>Read it aloud!</h2>
+<hr>
+Type word or sentence in the textbox, and click Submit.  Use browser back button to come back to this page.
 <div class="col-md-10">
   {{ wtf.render_form(form) }}
 </div>
-<br>
-Use back button to go back to this page...sorry...
+<hr>
+<h4>Backup and restore</h4>
+<p>You can export your books and progress to a local file in case your data is lost.</p>
+<p>
+<a href="/export"><button type="button" class="btn btn-info btn-sm">Export all</button></a>
+<a href="/import"><button type="button" class="btn btn-danger btn-sm">Import and restore</button></a>
+</p>
+
+{% else %}
+<h1>Welcome to Vocabull!</h1>
+<hr>
+<p>This is the right place to build your vocabularly skills.</p>
+<p>Click the menu icon at the top-right corner and choose login.  Then, click "Click here to register" to create your account.</p>
 {% endif %}
 <hr>
+<p class="text-secondary"><span class="badge bg-primary">Vocabull</span> - Copyright 2023 Kyosuke Achiwa.  All rights reserved.</p>
+
 {% endblock %}
