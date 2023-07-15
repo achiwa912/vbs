@@ -30,7 +30,7 @@
 </div>
 
 <hr>
-<a href="#" onclick="javascript:closeOnLoad('/pronounce/{{ session['username'] }}/{{ word.id }}', {{ session['audio_len'] }});"><button type="button" class="btn btn-primary">Pronounce word</button></a>
+<a href="#" onclick="javascript:speechWord();"><button type="button" class="btn btn-primary">Pronounce word</button></a>
 <a href="/edit-word/{{ word.id }}"><button type="button" class="btn btn-primary">Edit word</button></a>
 
 <hr>
@@ -40,23 +40,14 @@
   <br>
   index: {{ session["index"] }} - {{ session["lwin"] }}, 
   prac: {{ prac }}, {{ word }}
-  audio_len: {{ session["audio_len"] }}, 
-  username: {{ session["username"] }}
 </p>
 {% endif %}
 
 <script>
-  function closeOnLoad(myLink, audio_len)
+  function speechWord()
   {
-      var newWindow = window.open(myLink, "_blank", "width=200,height=100");
-      setTimeout(
-          function()
-          {
-              newWindow.close();
-          },
-	  audio_len + 400
-      );
-      return false;
+      var msg = new SpeechSynthesisUtterance("{{ word.word }}");
+      window.speechSynthesis.speak(msg);
   }
 </script>
 

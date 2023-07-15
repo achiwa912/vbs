@@ -17,6 +17,7 @@ from .forms import (
 )
 from .. import db
 from ..models import Book, Word, Practice, User, fill_lwin, create_practices
+
 from gtts import gTTS
 from mutagen.mp3 import MP3
 
@@ -46,7 +47,9 @@ def index():
         session["audio_len"] = length
         session["username"] = current_user.username
 
-        return redirect(url_for(".pronounce", username=current_user.username))
+        return redirect(
+            url_for(".pronounce", username=current_user.username, word_id=0)
+        )
 
     return render_template(
         "index.html",
@@ -319,13 +322,10 @@ def edit_word(wd_id):
     return render_template("editword.html", form=form, word=word)
 
 
-@main.route("/pronounce/<username>/<word_id>")
+@main.route("/pronounce/<username>")
 @login_required
-def pronounce(username, word_id):
-    word = Word.query.filter_by(id=word_id).first()
+def pronounce(username):
     path = f"{current_user.username}.mp3"
-    tts = gTTS(word.word, lang="en")
-    tts.save(path)
 
     try:
         audio = MP3(path)
