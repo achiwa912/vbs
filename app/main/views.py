@@ -36,8 +36,12 @@ def index():
         text = form.text.data[:1024]
 
         path = f"{current_user.username}.mp3"
-        tts = gTTS(text, lang="en")
-        tts.save(path)
+        try:
+            tts = gTTS(text, lang="en")
+            tts.save(path)
+        except Exception as e:
+            flash(f"Google tts returned an error: {e}", "error")
+            return redirect(url_for(".index"))
 
         try:
             audio = MP3(path)
