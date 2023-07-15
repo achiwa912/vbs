@@ -99,18 +99,6 @@ def practice(bk_id, ptype):
         .first()
     )
 
-    path = f"{current_user.username}.mp3"
-    tts = gTTS(word.word, lang="en")
-    tts.save(path)
-
-    try:
-        audio = MP3(path)
-        length = int(audio.info.length * 1000)
-    except:
-        length = 3000  # 3 sec
-    session["audio_len"] = length
-    session["username"] = current_user.username
-
     if int(ptype) == 2:  # type word
         form = PracTypeForm()
         if form.validate_on_submit():
@@ -331,9 +319,22 @@ def edit_word(wd_id):
     return render_template("editword.html", form=form, word=word)
 
 
-@main.route("/pronounce/<username>")
+@main.route("/pronounce/<username>/<word_id>")
 @login_required
-def pronounce(username):
+def pronounce(username, word_id):
+    word = Word.query.filter_by(id=word_id).first()
+    path = f"{current_user.username}.mp3"
+    tts = gTTS(word.word, lang="en")
+    tts.save(path)
+
+    try:
+        audio = MP3(path)
+        length = int(audio.info.length * 1000)
+    except:
+        length = 3000  # 3 sec
+    session["audio_len"] = length + 400
+    session["username"] = current_user.username
+
     def generate():
         path = f"{username}.mp3"
         with open(path, "rb") as fmp3:
