@@ -45,7 +45,6 @@ I believe it is better than simple flashcards because:
   - You can flip cards as many as you like
 [[./images/vbs_w2d.jpg]]
 - Click =Pronounce word= to check the pronunciation
-  - A small pop-up will open for a few sec and it will automatically close
 - If you don't know, click =Once more= so that the word will reappear in the near future
 - If you managed to memorize it, click =Memorized for now= to increase the score by 1
   - You won't see the word for this round as Vocabull presents to you 10-lowest-score words
@@ -91,7 +90,7 @@ deleterious	bad, harmful	[a *********** effect on health]
 - Navigate to a book page
 - Click =Load from file= > click =Browse...= > choose a file > click =Submit=
 
-** Read it aloud! feature (new)
+** Read it aloud! feature (experimental)
 I recently added a new feature, =Read it aloud!= Vocabull reads aloud words and/or sentences. I think it is a convenient feature if you are a non-native English learner. 
 
 [[./images/vbs_readaloud.jpg]]
@@ -101,6 +100,8 @@ I recently added a new feature, =Read it aloud!= Vocabull reads aloud words and/
 - Click Submit button
 - You are navigated to a black page with audio control, and it reads aloud what you entered
 - You need to use browser's back button to go back to the page (hopefully, I'd like to fix this soon…)
+
+Noticed that google-text-to-speech API limits its usage at up to 100 requests per day, which is very low.  I might want to remove this feature in the future.
 
 ** Backup and restore (new)
 As Vocabull is still being developed, there's some risk that your data is all deleted and lost.  For example, a bug could corrupt the database.  To address such a scenario, I have implemented =Export all= and =Import and restore= features, which enable you to backup/restore your books and practice progress to a local file.
@@ -160,4 +161,3 @@ Blog article: https://achiwa912.github.io/vbs_eng.html
 * Acknowledgments
 - Vocabull uses user management and other parts from the fabulous =Flask Web Development= (by Miguel Grinberg) [[https://www.oreilly.com/library/view/flask-web-development/9781491991725/][book]] and [[https://github.com/miguelgrinberg/flasky][companion github repository]]
 - Vocabull uses a bootstrap 4 theme =United= from [[bootswatch CDN]]
-- Vocabull uses [[https://pypi.org/project/gTTS/][Google Text-to Speech]] to read aloud words
