@@ -26,10 +26,20 @@
 
 <h2>Read it aloud! (experimental)</h2>
 <hr>
-Type word or sentence in the textbox, and click Submit.  Use browser back button to come back to this page.
+
+<h3>SpeechSynthesis</h3>
+<p></p>
+<p><textarea class="form-control" id="MyTextarea" rows="3"></textarea></p>
+<p><a onclick="javascript:speechWord();"><button type="button" class="btn btn-primary">Submit</button></a></p>
+
+<br>
+
+<h3>Google Text-to-Speech</h3>
+Use browser back button to come back to this page.
 <div class="col-md-10">
   {{ wtf.render_form(form) }}
 </div>
+
 <hr>
 <h4>Backup and restore</h4>
 <p>You can export your books and progress to a local file in case your data is lost.</p>
@@ -37,6 +47,15 @@ Type word or sentence in the textbox, and click Submit.  Use browser back button
 <a href="/export"><button type="button" class="btn btn-info btn-sm">Export all</button></a>
 <a href="/import"><button type="button" class="btn btn-danger btn-sm">Import and restore</button></a>
 </p>
+
+<script>
+  function speechWord()
+  {
+      var value = document.getElementById('MyTextarea').value
+      var msg = new SpeechSynthesisUtterance(value);
+      window.speechSynthesis.speak(msg);
+  }
+</script>
 
 {% else %}
 <h1>Welcome to Vocabull!</h1>
