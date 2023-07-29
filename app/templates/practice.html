@@ -95,6 +95,7 @@
   function speechWord()
   {
       var msg = new SpeechSynthesisUtterance("{{ word.word }}");
+      msg.lang = "en_US"
       window.speechSynthesis.speak(msg);
   }
 </script>

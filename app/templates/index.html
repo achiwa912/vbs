@@ -53,6 +53,7 @@ Use browser back button to come back to this page.
   {
       var value = document.getElementById('MyTextarea').value
       var msg = new SpeechSynthesisUtterance(value);
+      mgs.lang = "en_US"
       window.speechSynthesis.speak(msg);
   }
 </script>
