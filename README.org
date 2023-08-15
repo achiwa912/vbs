@@ -68,7 +68,11 @@ I believe it is better than simple flashcards because:
 Also, you can create your own book and register words.
 
 - Click My Books > =Add= button
-- Type a book name and click =Submit=
+- Type a book name, language to pronounce and click =Submit=
+  - The language code will be used to pronounce words
+  - It can be en-US (English (USA)), fr-FR (French (France)), etc. and default to en-US
+  - Language code list here: [[http://www.lingoes.net/en/translator/langcode.htm]]
+  - Note: your browser might not support some languages
 - Click the newly created book card > click =Add word=
 - Type word and definition, and then click =Submit= \to Now, =Practice= is activated
   - Add a few words

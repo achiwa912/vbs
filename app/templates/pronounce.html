@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% import "bootstrap5/form.html" as wtf %}
+
+{% block page_content %}
+<br>
+<div class="page-header">
+  <h1>Read it aloud!</h1>
+</div>
+<hr>
+<audio>
+  <source src="{{ url_for('.audio_feed', username=current_user.username) }}" type="audio/mpeg">
+</audio>
+
+{% endblock %}

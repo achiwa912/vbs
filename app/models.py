@@ -19,6 +19,9 @@ class Practice(db.Model):
     def __init__(self, user_id, word_id):
         self.user_id = user_id
         self.word_id = word_id
+        self.score_w2d = 0
+        self.score_d2w = 0
+        self.score_type = 0
 
     def __repr__(self):
         return (
@@ -67,6 +70,8 @@ class Book(db.Model):
     name = db.Column(db.String(64))
     createtime = db.Column(db.DateTime())
     owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    word_lang = db.Column(db.String(64), default="en-US")
+    shared = db.Column(db.Boolean, default=False)
     words = db.relationship("Word", back_populates="book")
     subscribers = db.relationship(
         "User", secondary=subscriptions, back_populates="books"
@@ -76,6 +81,7 @@ class Book(db.Model):
     def __init__(self, name, owner_id):
         self.name = name
         self.owner_id = owner_id
+        self.word_lang = "en-US"
         self.createtime = datetime.utcnow()
         db.session.add(self)
 

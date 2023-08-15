@@ -80,6 +80,7 @@ def book(bk_id):
 def practice(bk_id, ptype):
     bk = Book.query.filter_by(id=bk_id).first_or_404()
     session["ptype"] = ptype
+    session["word_lang"] = bk.word_lang
 
     # create practices for the book & user
     numprac = (
@@ -223,6 +224,7 @@ def edit_book(bk_id):
             flash(f"Book: { bk.name } deleted", "success")
         else:
             bk.name = form.name.data
+            bk.word_lang = form.word_lang.data
             db.session.add(bk)
             db.session.commit()
             flash(f"Renamed to { bk.name }", "success")
@@ -232,6 +234,7 @@ def edit_book(bk_id):
         flash(f"Book id={bk_id} doesn't exist", "error")
         return redirect(url_for(".index"))
     form.name.data = bk.name
+    form.word_lang.data = bk.word_lang
     return render_template("editbook.html", form=form, bk=bk)
 
 
@@ -397,7 +400,11 @@ def import_restore():
                 idic = json.load(uploaded_file)
             except:
                 return "Invalid file contents", 400
+            word_lang_dic = {}
             for book_name, word_items in idic.items():
+                if book_name == "@word_lang@":
+                    word_lang_dic = word_items
+                    continue
                 bk = (
                     Book.query.filter_by(name=book_name)
                     .filter_by(owner_id=current_user.id)
@@ -439,6 +446,16 @@ def import_restore():
                         prac.score_type = max(word_item[5], prac.score_type)
                         db.session.add(prac)
                         db.session.commit()
+            for book_name, word_lang in word_lang_dic.items():
+                bk = (
+                    Book.query.filter_by(name=book_name)
+                    .filter_by(owner_id=current_user.id)
+                    .first()
+                )
+                if bk:
+                    bk.word_lang = word_lang
+                    db.session.add(bk)
+                    db.session.commit()
         else:
             return "", 204  # No content
         return redirect(url_for(".index"))
@@ -456,6 +473,7 @@ def export():
     Export books and progress to a local JSON file
     """
     exp_dic = {}
+    word_lang_dic = {}
     my_books = Book.query.filter_by(owner_id=current_user.id).all()
     for my_book in my_books:
         exp_dic[my_book.name] = []
@@ -481,6 +499,8 @@ def export():
                 exp_dic[my_book.name].append(
                     (word.word, word.definition, word.sample, 0, 0, 0)
                 )
+        word_lang_dic[my_book.name] = my_book.word_lang
+        exp_dic["@word_lang@"] = word_lang_dic
     exp_json = json.dumps(exp_dic)
     return Response(
         exp_json,
