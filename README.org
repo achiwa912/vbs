@@ -1,5 +1,8 @@
 * Vocabull (server)
 
+[[./images/vbs.jpg]]
+
+
 * Overview
 [[https://github.com/achiwa912/vbs][Vocabull (server)]] is a better flashcard web application for your vocabulary building.  It has three modes:
 1. Flashcard - word \to definition
@@ -94,20 +97,7 @@ deleterious	bad, harmful	[a *********** effect on health]
 - Navigate to a book page
 - Click =Load from file= > click =Browse...= > choose a file > click =Submit=
 
-** Read it aloud! feature (experimental)
-I recently added a new feature, =Read it aloud!= Vocabull reads aloud words and/or sentences. I think it is a convenient feature if you are a non-native English learner. 
-
-[[./images/vbs_readaloud.jpg]]
-
-- On the top page, you'll see Read it aloud! area under My Books book list.
-- In the textbox, type (or copy&paste) English word(s) or sentence(s)
-- Click Submit button
-- You are navigated to a black page with audio control, and it reads aloud what you entered
-- You need to use browser's back button to go back to the page (hopefully, I'd like to fix this soon…)
-
-Noticed that google-text-to-speech API limits its usage at up to 100 requests per day, which is very low.  I might want to remove this feature in the future.
-
-** Backup and restore (new)
+** Backup and restore
 As Vocabull is still being developed, there's some risk that your data is all deleted and lost.  For example, a bug could corrupt the database.  To address such a scenario, I have implemented =Export all= and =Import and restore= features, which enable you to backup/restore your books and practice progress to a local file.
 
 =Export all= exports all your books, all words in them and scores to a JSON file.
@@ -164,4 +154,4 @@ Blog article: https://achiwa912.github.io/vbs_eng.html
 
 * Acknowledgments
 - Vocabull uses user management and other parts from the fabulous =Flask Web Development= (by Miguel Grinberg) [[https://www.oreilly.com/library/view/flask-web-development/9781491991725/][book]] and [[https://github.com/miguelgrinberg/flasky][companion github repository]]
-- Vocabull uses a bootstrap 4 theme =United= from [[bootswatch CDN]]
+- Vocabull uses a bootstrap 4 theme =litera= from [[bootswatch CDN]]
