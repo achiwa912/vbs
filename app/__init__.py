@@ -19,7 +19,7 @@ def create_app(config_name):
     app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024  # up to 1MB
     app.config["UPLOAD_EXTENSIONS"] = [".txt"]
     app.config.from_object(config[config_name])
-    app.config["BOOTSTRAP_BOOTSWATCH_THEME"] = "united"
+    app.config["BOOTSTRAP_BOOTSWATCH_THEME"] = "litera"
     config[config_name].init_app(app)
 
     bootstrap.init_app(app)
