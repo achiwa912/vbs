@@ -3,6 +3,8 @@
 
 
 {% block page_content %}
+<img src="/static/banner.jpg" class="img-fluid" alt="Responsive image">
+
 <div class="page-header">
   <h1>Practice - {{ bk.name }}
     <a href="/book/{{ bk.id }}"><button type="button" class="btn btn-primary">Back to book</button></a></h1>
@@ -26,6 +28,7 @@
     </tr>
   </tbody>
 </table>
+
 
 {% if ptype == '0' %}
 <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel" data-interval="false">
