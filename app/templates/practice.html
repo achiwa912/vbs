@@ -73,13 +73,16 @@
 </div>
 {% endif %}
 
-<a href="/practice-oncemore"><button type="button" class="btn btn-primary">Once more</button></a>
-<a href="/practice-memorized/{{ ptype }}/1"><button type="button" class="btn btn-primary">Memorized for now</button></a>
-<a href="/practice-memorized/{{ ptype }}/5"><button type="button" class="btn btn-info">Knew it!</button></a>
+<a href="/practice-oncemore"><button type="button" class="btn btn-primary"><i class="bi-hand-thumbs-down-fill" style="font-size: 1.2rem"></i> Once more</button></a>
+<a href="/practice-memorized/{{ ptype }}/1"><button type="button" class="btn btn-primary"><i class="bi-hand-thumbs-up-fill" style="font-size: 1.2rem"></i> OK</button></a>
+<a href="/practice-memorized/{{ ptype }}/5"><button type="button" class="btn btn-info"><i class="bi-skip-forward-fill" style="font-size: 1.2rem"></i> Knew it!</button></a>
 <hr>
-<a href="#" onclick="javascript:speechWord();"><button type="button" class="btn btn-primary">Pronounce word</button></a>
+<a href="#" onclick="javascript:speechWord();"><button type="button" class="btn btn-primary"><i class="bi-play-btn-fill" style="font-size: 1.2rem"></i> word</button></a>
+<a href="#" onclick="javascript:speechSample();"><button type="button" class="btn btn-primary"><i class="bi-play-btn-fill" style="font-size: 1.2rem"></i> sample</button></a>
 <a href="/edit-word/{{ word.id }}"><button type="button" class="btn btn-primary">Edit word</button></a>
 </p>
+
+
 
 <hr>
 {% if session["debug"] %}
@@ -95,6 +98,12 @@
   function speechWord()
   {
       var msg = new SpeechSynthesisUtterance("{{ word.word }}");
+      msg.lang = '{{ session["word_lang"] }}';
+      window.speechSynthesis.speak(msg);
+  }
+  function speechSample()
+  {
+      var msg = new SpeechSynthesisUtterance("{{ word.sample }}");
       msg.lang = '{{ session["word_lang"] }}';
       window.speechSynthesis.speak(msg);
   }
