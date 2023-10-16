@@ -10,8 +10,8 @@
 <hr>
 
 {% if current_user.is_authenticated %}
-<h2>My Books <a href="/add-book"><button type="button" class="btn btn-primary">Add</button></a></h2>
-<hr>
+<h2>My Books <a href="/add-book"><button type="button" class="btn btn-primary"><i class="bi-book" style="font-size: 1.2rem"></i> Add</button></a></h2>
+
 <p>Choose a book to practice.</p>
 
 {% for my_book in my_books %}
