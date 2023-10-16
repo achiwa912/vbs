@@ -5,6 +5,10 @@
 
 {% block page_content %}
 
+<img src="/static/vBtitle.jpg" class="img-fluid" alt="Responsive image">
+
+<hr>
+
 {% if current_user.is_authenticated %}
 <h2>My Books <a href="/add-book"><button type="button" class="btn btn-primary">Add</button></a></h2>
 <hr>
@@ -24,47 +28,21 @@
 </a>
 {% endfor %}
 
-<h2>Read it aloud! (experimental)</h2>
 <hr>
-
-<h3>SpeechSynthesis</h3>
-<p></p>
-<p><textarea class="form-control" id="MyTextarea" rows="3"></textarea></p>
-<p><a onclick="javascript:speechWord();"><button type="button" class="btn btn-primary">Submit</button></a></p>
-
-<br>
-
-<h3>Google Text-to-Speech</h3>
-Use browser back button to come back to this page.
-<div class="col-md-10">
-  {{ wtf.render_form(form) }}
-</div>
-
-<hr>
-<h4>Backup and restore</h4>
+<h3>Backup and restore</h3>
 <p>You can export your books and progress to a local file in case your data is lost.</p>
 <p>
-<a href="/export"><button type="button" class="btn btn-info btn-sm">Export all</button></a>
-<a href="/import"><button type="button" class="btn btn-danger btn-sm">Import and restore</button></a>
+<a href="/export"><button type="button" class="btn btn-primary"><i class="bi-download" style="font-size: 1.2rem"></i> export all</button></a>
+<a href="/import"><button type="button" class="btn btn-info"><i class="bi-upload" style="font-size: 1.2rem"></i> import and restore</button></a>
 </p>
 
-<script>
-  function speechWord()
-  {
-      var value = document.getElementById('MyTextarea').value
-      var msg = new SpeechSynthesisUtterance(value);
-      mgs.lang = "en_US"
-      window.speechSynthesis.speak(msg);
-  }
-</script>
-
 {% else %}
-<h1>Welcome to Vocabull!</h1>
+<h1>Welcome to vocaBull!</h1>
 <hr>
 <p>This is the right place to build your vocabularly skills.</p>
 <p>Click the menu icon at the top-right corner and choose login.  Then, click "Click here to register" to create your account.</p>
 {% endif %}
 <hr>
-<p class="text-secondary"><span class="badge bg-primary">/vB/</span> - Copyright 2023 Kyosuke Achiwa.  All rights reserved.</p>
+<p class="text-secondary"><span class="badge rounded-pill bg-primary">/vB/</span> - Copyright 2023 Kyosuke Achiwa.  All rights reserved.</p>
 
 {% endblock %}
