@@ -7,7 +7,7 @@
 <div class="page-header">
 <img src="/static/books.jpg" class="img-fluid" alt="Responsive image">
   
-  <h1>Book - {{ bk.name }} <a href="/edit-book/{{ bk.id }}"><button type="button" class="btn btn-primary"><i class="bi-book" style="font-size: 1.2rem"></i> edit book</button></a>
+  <h1>{{ bk.name }} <a href="/edit-book/{{ bk.id }}"><button type="button" class="btn btn-primary"><i class="bi-book" style="font-size: 1.2rem"></i> edit book</button></a>
 </h1>
   {{ bk.words|length }} words, owner: {{ bk.owner.username }}, created: {{ bk.createtime.date() }}, language: {{ bk.word_lang }}
 </div>

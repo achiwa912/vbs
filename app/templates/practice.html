@@ -6,14 +6,14 @@
 <img src="/static/banner.jpg" class="img-fluid" alt="Responsive image">
 
 <div class="page-header">
-  <h1>Practice - {{ bk.name }}
+  <h1>{{ bk.name }}
     <a href="/book/{{ bk.id }}"><button type="button" class="btn btn-primary">Back to book</button></a></h1>
   {% if ptype == '2' %}
   <span class="badge bg-success">type word</span>
   {% elif ptype == '1' %}
   <span class="badge bg-info">def to word</span>
   {% else %}
-  <span class="badge bg-primary">word to def</span>
+  <span class="badge bg-danger">word to def</span>
   {% endif %}
 </div>
 <hr>
