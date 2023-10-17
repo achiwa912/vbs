@@ -1,4 +1,4 @@
-* Vocabull (server)
+* vocaBull (server)
 
 [[./images/vbs.jpg]]
 
@@ -12,9 +12,9 @@
 I believe it is better than simple flashcards because:
 - You'll see hard-to-memorize words more frequently
   - It repeats small number of words until you memorize (for now)
-- You can practice spelling (type-word mode)
-- Vocabull pronounces words for you
-- You can practice anywhere at anytime with your mobile phone, tablet or PC
+- You can practice spelling (the type-word mode)
+- vocaBull pronounces words and examples for you
+- As a web application, you can practice anywhere at anytime with your mobile phone, tablet or PC
 - Presents words in random order
 
 [[./images/vocabull_sample.jpg]]
@@ -40,30 +40,33 @@ I believe it is better than simple flashcards because:
 - Click the sample book
 
 ** Practice flashcards
-- Click =Practice= menu > choose =word to def= or =def to word=
+- Click =(play) practice= menu > choose =word to def= or =def to word=
   - You will be navigated to the practice page
 [[./images/vbs_samplewords.jpg]]
 - Click the word card to flip and show the answer
-  - Orange card shows the word, and blue card shows the definition
+  - Blue card shows the word, and greenish-blue card shows the definition
   - You can flip cards as many as you like
 [[./images/vbs_w2d.jpg]]
-- Click =Pronounce word= to check the pronunciation
-- If you don't know, click =Once more= so that the word will reappear in the near future
-- If you managed to memorize it, click =Memorized for now= to increase the score by 1
-  - You won't see the word for this round as Vocabull presents to you 10-lowest-score words
-- If you know the word, click =Knew it!= to increase the score by 5!
+- Click =(single-note) word= to check the pronunciation of the word
+- Click =(duplet) example= to check the pronunciation of the example sentence
+- If you don't know, click =(thumbs-down) once more= so that the word will reappear in the near future
+- If you managed to memorize it, click =(thumbs-up) okay!= to increase the score by 1
+  - You won't see the word for this round as vocaBull presents to you 10-lowest-score words
+- If you know the word, click =(skip) knew it!= to increase the score by 5!
   - So, you won't see the word for 5 rounds
 - Click =Back to book= to go back to the selected book
 
 ** Practice type spells
-- Click =Practice= menu > choose =type word=
-- Vocabull shows the definition of a word and asks you to type the word
+- Click =(play) practice= menu > choose =type word=
+- vocaBull shows the definition of a word and asks you to type the word
 [[./images/vbs_type.jpg]]
 - Type your answer and click =Submit= (or push =return= key)
 - It shows correct/incorrect and asks you to type the word 4 times, anyway
   - Tip: use =tab= or =return= key to move from an input box to another
   - If incorrect, you'll see the word again after a while
-  - Click =Pronounce word= to check the pronunciation
+  - Click =(single-note) word= to check the pronunciation of the word
+  - Click =(duplet) example= to check the pronunciation of the example sentence
+
 [[./images/vbs_repeat.jpg]]
 - It moves to the next word
 
@@ -90,9 +93,9 @@ Also, you can create your own book and register words.
 #+end_src
 - Example:
 #+begin_src 
-strident	shrill, harsh, rough	[in more ******** tones]
-lassitude	weariness, fatigue	[a feeling of *********]
-deleterious	bad, harmful	[a *********** effect on health]
+strident	shrill, harsh, rough	in more strident tones
+lassitude	weariness, fatigue	 feeling of lassitude
+deleterious	bad, harmful	a deleterious effect on health
 #+end_src
 - Navigate to a book page
 - Click =Load from file= > click =Browse...= > choose a file > click =Submit=
@@ -105,6 +108,7 @@ As Vocabull is still being developed, there's some risk that your data is all de
 =Import and restore= reads the backup JSON file and restores books, words and scores.  If there's an existing book of the same name, it will add words to the existing book.  If the same word is in the book, it will overwrite the definition and sample sentence from the backup.  For scores, larger values remain.
 
 For example, if you =Export all= and then =Import and restore= right after, nothing will change in your books, words or scores.
+
 
 *** How to backup
 - On the top page, scroll down until you see Backup and restore section.

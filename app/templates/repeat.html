@@ -30,7 +30,8 @@
 </div>
 
 <hr>
-<a href="#" onclick="javascript:speechWord();"><button type="button" class="btn btn-primary">Pronounce word</button></a>
+<a href="#" onclick="javascript:speechWord();"><button type="button" class="btn btn-primary"><i class="bi-music-note" style="font-size: 1.2rem"></i> word</button></a>
+<a href="#" onclick="javascript:speechSample();"><button type="button" class="btn btn-primary"><i class="bi-music-note-beamed" style="font-size: 1.2rem"></i> example</button></a>
 <a href="/edit-word/{{ word.id }}"><button type="button" class="btn btn-primary">Edit word</button></a>
 
 <hr>
@@ -47,6 +48,12 @@
   function speechWord()
   {
       var msg = new SpeechSynthesisUtterance("{{ word.word }}");
+      msg.lang = '{{ session["word_lang"] }}';
+      window.speechSynthesis.speak(msg);
+  }
+  function speechSample()
+  {
+      var msg = new SpeechSynthesisUtterance("{{ word.sample }}");
       msg.lang = '{{ session["word_lang"] }}';
       window.speechSynthesis.speak(msg);
   }
