@@ -35,14 +35,23 @@
 <a href="/export"><button type="button" class="btn btn-primary"><i class="bi-download" style="font-size: 1.2rem"></i> export all</button></a>
 <a href="/import"><button type="button" class="btn btn-info"><i class="bi-upload" style="font-size: 1.2rem"></i> import and restore</button></a>
 </p>
-
+<div class="card text-white bg-danger mb-3" style="max-width: 60rem;">
+  <div class="card-body">
+    <h4 class="card-title">Important notice</h4>
+    <p class="card-text">Please be sure to export your data frequently as no backup is taken and database migration is not supported. (ie, sorry, sometimes happens)</p>
+  </div>
+</div>
 {% else %}
 <h1>Welcome to vocaBull!</h1>
 <hr>
 <p>This is the right place to build your vocabularly skills.</p>
 <p>Click the menu icon at the top-right corner and choose login.  Then, click "Click here to register" to create your account.</p>
+<hr>
+<h3>Can't login?</h3>
+<p>If you are an existing user but you can't login, the database might have been initialized.  This happens when there's an update to the database (note: database migration is not supported), a bug, disaster, etc.</p>
+<p>In this case, you'll need to re-create your user account, login again and import your data.  If you haven't exported your data, sorry but you are unlucky; You'll have to start over.</p>
 {% endif %}
 <hr>
-<p class="text-secondary"><span class="badge rounded-pill bg-primary">/vB/</span> - Copyright 2023 Kyosuke Achiwa.  All rights reserved.</p>
+<p class="text-secondary"><span class="badge rounded-pill bg-primary">/vB/</span> - 2023 Kyosuke Achiwa.</p>
 
 {% endblock %}
