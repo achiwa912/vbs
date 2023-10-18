@@ -71,6 +71,7 @@ def book(bk_id):
     session["lwin"] = []
     session["index"] = 0
     session["tmp_score"] = 0
+    session["tmp_count"] = 0
     session["url"] = url_for(".book", bk_id=bk_id)
     return render_template("book.html", bk=bk)
 
@@ -119,12 +120,14 @@ def practice(bk_id, ptype):
                 correct = True
                 flash(f"Correct! -- type the word 4 times, anyway", "success")
                 session["tmp_score"] += 1
+                session["tmp_count"] += 1
             else:
                 session["index"] += 1
                 if session["index"] >= len(session["lwin"]):
                     session["index"] = 0
                 correct = False
                 flash(f"Incorrect! -- Let's type the word 4 times", "error")
+                session["tmp_count"] += 1
             return redirect(f"/repeat/{word.id}/{correct}")
         return render_template(
             "practice-type.html", bk=bk, word=word, prac=prac, form=form
@@ -153,9 +156,22 @@ def repeat(wd_id, correct):
     )
 
 
-@main.route("/practice-oncemore")
+@main.route("/practice-oncemore/<ptype>")
 @login_required
-def practice_oncemore():
+def practice_oncemore(ptype):
+    word_id = session["lwin"][session["index"]]
+    practice = Practice.query.filter(
+        Practice.word_id == word_id and Practice.user_id == current_user.id
+    ).first()
+    session["tmp_count"] += 1
+    if int(ptype) == 2:  # type Word
+        practice.ng_type += 1
+    elif int(ptype) == 1:  # d2w
+        practice.ng_d2w += 1
+    else:  # w2d
+        practice.ng_w2d += 1
+    db.session.add(practice)
+    db.session.commit()
     session["index"] += 1
     if session["index"] >= len(session["lwin"]):
         session["index"] = 0
@@ -172,6 +188,7 @@ def practice_memorized(ptype, plus):
         Practice.word_id == word_id and Practice.user_id == current_user.id
     ).first()
     session["tmp_score"] += 1
+    session["tmp_count"] += 1
     if int(ptype) == 2:  # type Word
         practice.score_type += int(plus)
     elif int(ptype) == 1:  # d2w
@@ -305,6 +322,9 @@ def edit_word(wd_id):
             prac.score_w2d = form.score_w2d.data
             prac.score_d2w = form.score_d2w.data
             prac.score_type = form.score_type.data
+            prac.ng_w2d = form.ng_w2d.data
+            prac.ng_d2w = form.ng_d2w.data
+            prac.ng_type = form.ng_type.data
             db.session.add(prac)
         db.session.commit()
         flash(f"Word: {word.word} updated", "success")
@@ -322,10 +342,16 @@ def edit_word(wd_id):
         form.score_w2d.data = prac.score_w2d
         form.score_d2w.data = prac.score_d2w
         form.score_type.data = prac.score_type
+        form.ng_w2d.data = prac.ng_w2d
+        form.ng_d2w.data = prac.ng_d2w
+        form.ng_type.data = prac.ng_type
     else:
         form.score_w2d.data = 0
         form.score_d2w.data = 0
         form.score_type.data = 0
+        form.ng_w2d.data = 0
+        form.ng_d2w.data = 0
+        form.ng_type.data = 0
     return render_template("editword.html", form=form, word=word)
 
 
@@ -428,6 +454,10 @@ def import_restore():
                         prac.score_w2d = word_item[3]
                         prac.score_d2w = word_item[4]
                         prac.score_type = word_item[5]
+                        if len(word_item) > 6:  # has ng_xx values?
+                            prac.ng_w2d = word_item[6]
+                            prac.ng_d2w = word_item[7]
+                            prac.ng_type = word_item[8]
                         db.session.add(prac)
                         db.session.commit()
                     else:
@@ -444,6 +474,10 @@ def import_restore():
                         prac.score_w2d = max(word_item[3], prac.score_w2d)
                         prac.score_d2w = max(word_item[4], prac.score_d2w)
                         prac.score_type = max(word_item[5], prac.score_type)
+                        if len(word_item) > 6:  # has ng_xx values?
+                            prac.ng_w2d = max(word_item[6], prac.ng_w2d)
+                            prac.ng_d2w = max(word_item[7], prac.ng_d2w)
+                            prac.ng_type = max(word_item[8], prac.ng_type)
                         db.session.add(prac)
                         db.session.commit()
             for book_name, word_lang in word_lang_dic.items():
@@ -493,6 +527,9 @@ def export():
                         prac.score_w2d,
                         prac.score_d2w,
                         prac.score_type,
+                        prac.ng_w2d,
+                        prac.ng_d2w,
+                        prac.ng_type,
                     )
                 )
             else:

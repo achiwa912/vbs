@@ -14,6 +14,9 @@ class Practice(db.Model):
     score_w2d = db.Column(db.Integer, default=0)
     score_d2w = db.Column(db.Integer, default=0)
     score_type = db.Column(db.Integer, default=0)
+    ng_w2d = db.Column(db.Integer, default=0)
+    ng_d2w = db.Column(db.Integer, default=0)
+    ng_type = db.Column(db.Integer, default=0)
     user = db.relationship("User", back_populates="words")
 
     def __init__(self, user_id, word_id):
@@ -22,6 +25,9 @@ class Practice(db.Model):
         self.score_w2d = 0
         self.score_d2w = 0
         self.score_type = 0
+        self.ng_w2d = 0
+        self.ng_d2w = 0
+        self.ng_type = 0
 
     def __repr__(self):
         return (

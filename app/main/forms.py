@@ -45,6 +45,9 @@ class EditWordForm(FlaskForm):
     score_w2d = IntegerField("Score word to def")
     score_d2w = IntegerField("Score def to word")
     score_type = IntegerField("Score type word")
+    ng_w2d = IntegerField("Once more word to def")
+    ng_d2w = IntegerField("Once more def to word")
+    ng_type = IntegerField("Once more type word")
     delete = BooleanField("Delete")
     submit = SubmitField("Submit")
 

@@ -15,10 +15,10 @@
 <table class="table table-hover">
   <tbody>
     <tr class="table-primary">
-      <th scope="row">today: {{ session["tmp_score"]}}</th>
-      <td>word to def: {{ prac.score_w2d }}</td>
-      <td>def to word: {{ prac.score_d2w }}</td>
-      <td>type word: {{ prac.score_type }}</td>
+      <th scope="row">today: {{ session["tmp_score"]}}/{{ session["tmp_count"] }}</th>
+      <td>word to def: {{ prac.score_w2d }}/{{ prac.score_w2d + prac.ng_w2d }}</td>
+      <td>def to word: {{ prac.score_d2w }}/{{ prac.score_d2w + prac.ng_d2w }}</td>
+      <td>type word: {{ prac.score_type }}/{{ prac.score_type + prac.ng_type }}</td>
     </tr>
   </tbody>
 </table>
