@@ -1,7 +1,8 @@
 import random
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import session
+from itsdangerous import URLSafeSerializer as Serializer
+from flask import session, current_app
 from flask_login import UserMixin, AnonymousUserMixin, current_user
 from . import db, login_manager
 from config import config
@@ -201,9 +202,12 @@ class Role(db.Model):
 class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
     role_id = db.Column(db.Integer, db.ForeignKey("roles.id"))
     password_hash = db.Column(db.String(128))
+    confirmed = db.Column(db.Boolean, default=False)
+    name = db.Column(db.String(64))
     words = db.relationship("Practice", back_populates="user")
     my_books = db.relationship("Book", back_populates="owner")
     books = db.relationship(
@@ -228,6 +232,25 @@ class User(UserMixin, db.Model):
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def generate_confirmation_token(self, expiration=3600):
+        # s = Serializer(current_app.config["SECRET_KEY"], expiration)
+        s = Serializer(current_app.config["SECRET_KEY"])
+        breakpoint()
+        # return s.dumps({"confirm": self.id}).decode("utf-8")
+        return s.dumps({"confirm": self.id})
+
+    def confirm(self, token):
+        s = Serializer(current_app.config["SECRET_KEY"])
+        try:
+            data = s.loads(token.encode("utf-8"))
+        except:
+            return False
+        if data.get("confirm") != self.id:
+            return False
+        self.confirmed = True
+        db.session.add(self)
+        return True
 
     def can(self, perm):
         return self.role is not None and self.role.has_permission(perm)
