@@ -43,11 +43,11 @@ config_base = {
     "debug": False,
 }
 
-try:
-    secrets = {}
-    with open("secrets.json") as f:
-        secrets = json.load(f)
-except Exception as e:
-    pass
+secrets = {}
+with open("secrets.json") as f:
+    secrets = json.load(f)
 
 config = config_base | secrets
+print("++++++++++++++")
+print(config)
+print("++++++++++++++")
