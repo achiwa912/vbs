@@ -16,12 +16,13 @@
 
 {% for my_book in my_books %}
 <a href="/book/{{ my_book.id }}">
-  <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+  <div class="card text-white bg-primary mb-4" style="max-width: 30rem;">
     <div class="card-header">{{ my_book.name }}</div>
     <div class="card-body">
       <p class="card-text">
 	{{ my_book.words|length }} words<br>
-	created: {{ my_book.createtime.date() }}
+	created: {{ moment(my_book.createtime).format('LLL') }}<br>
+	last modified: {{ moment(my_book.last_modified).format('LLL') }}
       </p>
     </div>
   </div>

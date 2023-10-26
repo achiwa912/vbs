@@ -76,6 +76,7 @@ class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     createtime = db.Column(db.DateTime())
+    last_modified = db.Column(db.DateTime())
     owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     word_lang = db.Column(db.String(64), default="en-US")
     shared = db.Column(db.Boolean, default=False)
@@ -90,6 +91,7 @@ class Book(db.Model):
         self.owner_id = owner_id
         self.word_lang = "en-US"
         self.createtime = datetime.utcnow()
+        self.last_modified = datetime.utcnow()
         db.session.add(self)
 
     def load_from_stream(self, stream):
@@ -234,10 +236,7 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def generate_confirmation_token(self, expiration=3600):
-        # s = Serializer(current_app.config["SECRET_KEY"], expiration)
         s = Serializer(current_app.config["SECRET_KEY"])
-        breakpoint()
-        # return s.dumps({"confirm": self.id}).decode("utf-8")
         return s.dumps({"confirm": self.id})
 
     def confirm(self, token):

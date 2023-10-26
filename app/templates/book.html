@@ -5,14 +5,19 @@
 
 
 <div class="page-header">
-<img src="/static/books.jpg" class="img-fluid" alt="Responsive image">
-  
-  <h1>{{ bk.name }} <a href="/edit-book/{{ bk.id }}"><button type="button" class="btn btn-primary"><i class="bi-book" style="font-size: 1.2rem"></i> edit book</button></a>
-</h1>
-  {{ bk.words|length }} words, owner: {{ bk.owner.username }}, created: {{ bk.createtime.date() }}, language: {{ bk.word_lang }}
+  <img src="/static/books.jpg" class="img-fluid" alt="Responsive image">
+  <hr>
+  <div class="card border-primary mb-4">
+    <div class="card-header"><h1>{{ bk.name }} <a href="/edit-book/{{ bk.id }}"><button type="button" class="btn btn-primary"><i class="bi-book" style="font-size: 1.2rem"></i> edit book</button></a></h1></div>
+    <div class="card-body">
+      <p class="card-text">
+	{{ bk.words|length }} words, owner: {{ bk.owner.username}}, language: {{bk.word_lang }}<br>
+	created: {{ moment(bk.createtime).format('LLL') }}<br>
+	last modified: {{ moment(bk.last_modified).format('LLL') }}
+      </p>
+    </div>
+  </div>
 </div>
-
-<hr>
 
 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
   {% if bk.words|length == 0 %}

@@ -1,5 +1,6 @@
 import os
 import json
+from datetime import datetime
 from flask import render_template, session, redirect, url_for, flash, request
 from flask import Response, jsonify
 from flask_login import current_user, login_required
@@ -270,6 +271,9 @@ def add_word(bk_id):
             bk_id,
         )
         db.session.add(word)
+        book = Book.query.filter_by(id=int(bk_id)).first()
+        book.last_modified = datetime.utcnow()
+        db.session.add(book)
         db.session.commit()
         flash(f"Word: {word.word} added", "success")
         if "url" in session:
@@ -301,12 +305,15 @@ def edit_word(wd_id):
             if "url" in session:
                 return redirect(session["url"])
             return redirect(url_for(".index"))
+        book = Book.query.filter_by(id=word.book_id).first()
+        book.last_modified = datetime.utcnow()
+        db.session.add(book)
         if form.delete.data:
-            book = Book.query.filter_by(id=word.book_id).first()
             word.delete()
             session["lwin"].pop(session["index"])
             if session["index"] >= len(session["lwin"]):
                 session["index"] = 0
+            db.session.commit()
             flash(f"Word {word.word} deleted", "success")
             if "url" in session and len(book.words) > 0:
                 return redirect(
