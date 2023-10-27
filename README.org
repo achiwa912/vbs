@@ -120,6 +120,8 @@ For example, if you =Export all= and then =Import and restore= right after, noth
 - Click =Browse...= and choose =vocabull.json=, and then click =Submit=
 
 * Setup server
+If you ever want to setup a vocaBull server yourself, here's the steps.
+
 - Setup Python 3.11 or later
 - git clone repository
 : git clone https://github.com/achiwa912/vbs.git
@@ -137,6 +139,20 @@ python -m venv ve
 #+begin_src bash
 export FLASK_APP=vbs.py
 export FLASK_DEBUG=1  # optional
+#+end_src
+- Prepare secrets.json file
+  - SECRET_KEY: put a random string
+  - ADMIN_USER/_PASSWORD: reserved for future enhancement
+  - MAIL_USERNAME: your gmail username
+  - MAIL_PASSWORD: your app password.  you need to manyally obtain one.  See [[https://support.google.com/accounts/answer/185833?hl=en][google help]]
+#+begin_src json
+{
+    "SECRET_KEY": "hard to memorize string",
+    "ADMIN_USER": "username",
+    "ADMIN_PASS": "password",
+    "MAIL_USERNAME": "test@gmail.com",
+    "MAIL_PASSWORD": "abcd efgh hijk lmno "
+}
 #+end_src
 - Initial setup
 : flask initial-setup
