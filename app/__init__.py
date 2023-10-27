@@ -18,9 +18,6 @@ login_manager.login_view = "auth.login"
 def create_app(config_name):
     app = Flask(__name__)
     app.config["UPLOAD_FOLDER"] = config["UPLOAD_FOLDER"]
-    print("-------------------")
-    print(config)
-    print("-------------------")
     app.config["ADMIN_USER"] = config["ADMIN_USER"]
     app.config["ADMIN_PASS"] = config["ADMIN_PASS"]
     app.config["MAIL_USERNAME"] = config["MAIL_USERNAME"]

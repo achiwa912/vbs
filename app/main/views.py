@@ -245,7 +245,7 @@ def edit_book(bk_id):
             bk.word_lang = form.word_lang.data
             db.session.add(bk)
             db.session.commit()
-            flash(f"Renamed to { bk.name }", "success")
+            flash(f"{ bk.name } updated", "success")
         return redirect(url_for(".index"))
     bk = Book.query.filter_by(id=bk_id).first()
     if not bk:
@@ -434,9 +434,13 @@ def import_restore():
             except:
                 return "Invalid file contents", 400
             word_lang_dic = {}
+            book_prop_dic = {}
             for book_name, word_items in idic.items():
-                if book_name == "@word_lang@":
+                if book_name == "@word_lang@":  # legacy
                     word_lang_dic = word_items
+                    continue
+                if book_name == "@book_prop@":
+                    book_prop_dic = word_items
                     continue
                 bk = (
                     Book.query.filter_by(name=book_name)
@@ -461,7 +465,7 @@ def import_restore():
                         prac.score_w2d = word_item[3]
                         prac.score_d2w = word_item[4]
                         prac.score_type = word_item[5]
-                        if len(word_item) > 6:  # has ng_xx values?
+                        if len(word_item) > 6:  # legacy check
                             prac.ng_w2d = word_item[6]
                             prac.ng_d2w = word_item[7]
                             prac.ng_type = word_item[8]
@@ -481,7 +485,7 @@ def import_restore():
                         prac.score_w2d = max(word_item[3], prac.score_w2d)
                         prac.score_d2w = max(word_item[4], prac.score_d2w)
                         prac.score_type = max(word_item[5], prac.score_type)
-                        if len(word_item) > 6:  # has ng_xx values?
+                        if len(word_item) > 6:  # legacy check
                             prac.ng_w2d = max(word_item[6], prac.ng_w2d)
                             prac.ng_d2w = max(word_item[7], prac.ng_d2w)
                             prac.ng_type = max(word_item[8], prac.ng_type)
@@ -495,6 +499,19 @@ def import_restore():
                 )
                 if bk:
                     bk.word_lang = word_lang
+                    db.session.add(bk)
+                    db.session.commit()
+            for book_name, book_prop in book_prop_dic.items():
+                print(f"found: {book_name} - {book_prop}")
+                bk = (
+                    Book.query.filter_by(name=book_name)
+                    .filter_by(owner_id=current_user.id)
+                    .first()
+                )
+                if bk:
+                    bk.work_lang = book_prop[0]
+                    bk.createtime = datetime.fromisoformat(book_prop[1])
+                    bk.last_modified = datetime.fromisoformat(book_prop[2])
                     db.session.add(bk)
                     db.session.commit()
         else:
@@ -514,7 +531,7 @@ def export():
     Export books and progress to a local JSON file
     """
     exp_dic = {}
-    word_lang_dic = {}
+    book_prop_dic = {}
     my_books = Book.query.filter_by(owner_id=current_user.id).all()
     for my_book in my_books:
         exp_dic[my_book.name] = []
@@ -543,9 +560,13 @@ def export():
                 exp_dic[my_book.name].append(
                     (word.word, word.definition, word.sample, 0, 0, 0)
                 )
-        word_lang_dic[my_book.name] = my_book.word_lang
-        exp_dic["@word_lang@"] = word_lang_dic
-    exp_json = json.dumps(exp_dic)
+        book_prop_dic[my_book.name] = (
+            my_book.word_lang,
+            my_book.createtime.isoformat(),
+            my_book.last_modified.isoformat(),
+        )
+        exp_dic["@book_prop@"] = book_prop_dic
+    exp_json = json.dumps(exp_dic, indent=1, default=str)
     return Response(
         exp_json,
         mimetype="application/json",
