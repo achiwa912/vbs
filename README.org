@@ -140,7 +140,7 @@ python -m venv ve
 export FLASK_APP=vbs.py
 export FLASK_DEBUG=1  # optional
 #+end_src
-- Prepare secrets.json file
+- Prepare secrets.json file in the project folder (eg, ~/py/vbs/secrets.json)
   - SECRET_KEY: put a random string
   - ADMIN_USER/_PASSWORD: reserved for future enhancement
   - MAIL_USERNAME: your gmail username
@@ -154,6 +154,11 @@ export FLASK_DEBUG=1  # optional
     "MAIL_PASSWORD": "abcd efgh hijk lmno "
 }
 #+end_src
+- vocaBull might fail to run if it can't find secrets.json file.  In that case, you might need to specify a full path to 4th line from the bottom of config.py.  For example, 
+#+begin_src python
+with open("/home/yourhome/py/vbs/secrets.json") as f:
+#+end_src
+
 - Initial setup
 : flask initial-setup
 - Run app
