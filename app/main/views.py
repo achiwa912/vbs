@@ -442,6 +442,9 @@ def import_restore():
                 if book_name == "@book_prop@":
                     book_prop_dic = word_items
                     continue
+                if book_name == "@user_prop@":
+                    current_user.uuid = word_items
+                    continue
                 bk = (
                     Book.query.filter_by(name=book_name)
                     .filter_by(owner_id=current_user.id)
@@ -512,6 +515,15 @@ def import_restore():
                     bk.work_lang = book_prop[0]
                     bk.createtime = datetime.fromisoformat(book_prop[1])
                     bk.last_modified = datetime.fromisoformat(book_prop[2])
+                    if len(book_prop) > 3:  # legacy check
+                        uuidstr = book_prop[3]
+                        owner = User.query.filter_by(uuid=uuidstr).first()
+                        if owner:
+                            bk.owner_id = owner.id
+                        else:
+                            # if owner doesn't exist in the database,
+                            # set UUID of the owner instead
+                            bk.tmp_owner_uuid = uuidstr
                     db.session.add(bk)
                     db.session.commit()
         else:
@@ -532,7 +544,7 @@ def export():
     """
     exp_dic = {}
     book_prop_dic = {}
-    my_books = Book.query.filter_by(owner_id=current_user.id).all()
+    my_books = Book.query.filter_by(owner_id=current_user.id).all() + current_user.books
     for my_book in my_books:
         exp_dic[my_book.name] = []
         words = Word.query.filter_by(book_id=my_book.id).all()
@@ -560,12 +572,15 @@ def export():
                 exp_dic[my_book.name].append(
                     (word.word, word.definition, word.sample, 0, 0, 0)
                 )
+        owner = User.query.filter_by(id=my_book.owner_id).first()
         book_prop_dic[my_book.name] = (
             my_book.word_lang,
             my_book.createtime.isoformat(),
             my_book.last_modified.isoformat(),
+            owner.uuid,
         )
         exp_dic["@book_prop@"] = book_prop_dic
+        exp_dic["@user_prop@"] = current_user.uuid
     exp_json = json.dumps(exp_dic, indent=1, default=str)
     return Response(
         exp_json,

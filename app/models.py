@@ -1,5 +1,6 @@
 import random
 from datetime import datetime
+import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import URLSafeSerializer as Serializer
 from flask import session, current_app
@@ -78,6 +79,8 @@ class Book(db.Model):
     createtime = db.Column(db.DateTime())
     last_modified = db.Column(db.DateTime())
     owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    # only while owner_id is undeterminable.  Otherwise, it must be ""
+    tmp_owner_uuid = db.Column(db.String(32))
     word_lang = db.Column(db.String(64), default="en-US")
     shared = db.Column(db.Boolean, default=False)
     words = db.relationship("Word", back_populates="book")
@@ -204,6 +207,7 @@ class Role(db.Model):
 class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
+    uuid = db.Column(db.String(32), unique=True)  # Note: string
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
     role_id = db.Column(db.Integer, db.ForeignKey("roles.id"))
@@ -223,6 +227,7 @@ class User(UserMixin, db.Model):
                 self.role = Role.query.filter_by(name="Administrator").first()
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
+        self.uuid = str(uuid.uuid4())
 
     @property
     def password(self):
