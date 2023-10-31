@@ -8,7 +8,23 @@
   <img src="/static/books.jpg" class="img-fluid" alt="Responsive image">
   <hr>
   <div class="card border-primary mb-4">
-    <div class="card-header"><h1>{{ bk.name }} <a href="/edit-book/{{ bk.id }}"><button type="button" class="btn btn-primary"><i class="bi-book" style="font-size: 1.2rem"></i> edit book</button></a></h1></div>
+    <div class="card-header"><b>{{ bk.name }}</b>
+      {% if bk.shared %}
+      <span class="badge bg-success">public</span>
+      {% endif %}
+      {% if bk.level == 'Beginner' %}
+      <span class="badge rounded-pill bg-info">beginner</span>
+      {% elif bk.level == 'Intermediate' %}
+      <span class="badge rounded-pill bg-warning">intermediate</span>
+      {% elif bk.level == 'Advanced' %}
+      <span class="badge rounded-pill bg-danger">advanced</span>
+      {% elif bk.level %}
+      <span class="badge rounded-pill bg-light">{{ bk.level.lower() }}</span>
+      {% endif %}
+      {% if current_user in bk.subscribers %}
+      <a href="/return/{{ bk.id }}"><button type="button" class="btn btn-primary"><i class="bi-building-check" style="font-size: 1.0rem"></i> return to library</button></a>
+      {% endif %}
+    </div>
     <div class="card-body">
       <p class="card-text">
 	{{ bk.words|length }} words, owner: {{ bk.owner.username}}, language: {{bk.word_lang }}<br>
@@ -39,24 +55,27 @@
 
   {% endif %}
 </div>
+<a href="/edit-book/{{ bk.id }}"><button type="button" class="btn btn-primary"><i class="bi-book" style="font-size: 1.0rem"></i> edit book</button></a>
 <a href="/add-word/{{ bk.id }}"><button type="button" class="btn btn-primary">Add word</button></a>
 <a href="/load-file/{{ bk.id }}"><button type="button" class="btn btn-primary">Load from file</button></a>
 <hr>
 <table class="table">
   <thread>
     <tr class="table-primary">
-      <th>id</th>
+      <th>#</th>
       <th>word</th>
       <th>definition</th>
+      <th>sample</th>
       <th></th>
     </tr>
   </thread>
   <tbody>
     {% for word in bk.words %}
     <tr>
-      <td>{{ word.id }}</td>
+      <td>{{ loop.index }}</td>
       <td>{{ word.word|truncate(20) }}</td>
       <td>{{ word.definition|truncate(40) }}</td>
+      <td>{{ word.sample|truncate(40) }}</td>
       <td><a href="/edit-word/{{ word.id }}"><button type="button" class="btn btn-primary btn-sm">edit</button></a></td>
     </tr>
     {% endfor %}

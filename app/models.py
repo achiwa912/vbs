@@ -78,6 +78,7 @@ class Book(db.Model):
     name = db.Column(db.String(64))
     createtime = db.Column(db.DateTime())
     last_modified = db.Column(db.DateTime())
+    level = db.Column(db.String(16))
     owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     # only while owner_id is undeterminable.  Otherwise, it must be ""
     tmp_owner_uuid = db.Column(db.String(32))

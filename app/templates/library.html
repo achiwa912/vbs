@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% import "bootstrap5/form.html" as form %}
+
+{% block page_content %}
+
+
+<div class="page-header">
+  <img src="/static/library.jpg" class="img-fluid" alt="Responsive image">
+  <hr>
+  <h1>Library</h1>
+  <p>Browse a book and checkout</p>
+</div>
+
+{% for book in books %}
+{% if current_user not in book.subscribers %}
+<div class="card border-info mb-4" style="max-width: 30rem;">
+  <div class="card-header"><b>{{ book.name }}</b>
+    {% if book.level == 'Beginner' %}
+    <span class="badge rounded-pill bg-info">beginner</span>
+    {% elif book.level == 'Intermediate' %}
+    <span class="badge rounded-pill bg-warning">intermediate</span>
+    {% elif book.level == 'Advanced' %}
+    <span class="badge rounded-pill bg-danger">advanced</span>
+    {% elif book.level %}
+    <span class="badge rounded-pill bg-light">{{ my_book.level.lower() }}</span>
+    {% endif %}
+    {% if book.subscribers %}
+    <span class="badge bg-success">{{ book.subscribers|length }} users</span>
+    {% endif %}
+    <a href="/browse/{{ book.id }}"><button type="button" class="btn btn-primary"><i class="bi-eyeglasses" style="font-size: 1.2rem"></i> Browse</button></a>
+  </div>
+  <div class="card-body">
+    <p class="card-text">
+      {{ book.words|length }} words, author:
+      {% if book.owner %}
+      {{ book.owner.username }}
+      {% else %}anonymous
+      {% endif %}
+      <br>
+      last modified: {{ moment(book.last_modified).format('L') }}
+    </p>
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+
+<hr>
+<p class="text-secondary"><span class="badge rounded-pill bg-primary">/vB/</span> - 2023, 2024 Kyosuke Achiwa</p>
+{% endblock %}
+
+  

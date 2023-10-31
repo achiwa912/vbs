@@ -15,6 +15,15 @@ from wtforms.validators import DataRequired, EqualTo
 class EditBookForm(FlaskForm):
     delete = BooleanField("Delete")
     name = StringField("Book name:", validators=[DataRequired()])
+    level = SelectField(
+        "Level",
+        choices=[
+            ("", "Not specified"),
+            ("Beginner", "Beginner"),
+            ("Intermediate", "Intermediate"),
+            ("Advanced", "Advanced"),
+        ],
+    )
     word_lang = StringField("Language (eg, en-US, ja-JP):", validators=[DataRequired()])
     shared = SelectField(
         "Shared at library",

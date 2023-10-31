@@ -32,7 +32,8 @@ def index():
         session["debug"] = False
     my_books = []
     if current_user.is_authenticated:
-        my_books = Book.query.filter_by(owner_id=current_user.id).all()
+        books = current_user.books
+        my_books = Book.query.filter_by(owner_id=current_user.id).all() + books
     if form.validate_on_submit():
         text = form.text.data[:1024]
 
@@ -242,6 +243,7 @@ def edit_book(bk_id):
             flash(f"Book: { bk.name } deleted", "success")
         else:
             bk.name = form.name.data
+            bk.level = form.level.data
             bk.word_lang = form.word_lang.data
             if form.shared.data == "Public":
                 bk.shared = True
@@ -256,6 +258,7 @@ def edit_book(bk_id):
         flash(f"Book id={bk_id} doesn't exist", "error")
         return redirect(url_for(".index"))
     form.name.data = bk.name
+    form.level.data = bk.level
     form.word_lang.data = bk.word_lang
     if bk.shared:
         form.shared.data = "Public"
@@ -392,6 +395,41 @@ def pronounce(username):
                 data = fmp3.read(1024)
 
     return Response(generate(), mimetype="audio/mpeg")
+
+
+@main.route("/library")
+def library():
+    books = Book.query.filter_by(shared=True).all()
+    return render_template("library.html", books=books)
+
+
+@main.route("/browse/<bk_id>", methods=["GET"])
+def browse(bk_id):
+    bk = Book.query.filter_by(id=bk_id).first_or_404()
+    session["url"] = url_for(".library")
+    return render_template("browse.html", bk=bk)
+
+
+@main.route("/checkout/<bk_id>")
+@login_required
+def checkout(bk_id):
+    bk = Book.query.filter_by(id=bk_id).first_or_404()
+    bk.subscribers.append(current_user)
+    db.session.add(bk)
+    db.session.commit()
+    flash(f"Borrowed {bk.name}", "success")
+    return redirect(url_for(".library"))
+
+
+@main.route("/return/<bk_id>")
+@login_required
+def return_book(bk_id):
+    bk = Book.query.filter_by(id=bk_id).first_or_404()
+    bk.subscribers.remove(current_user)
+    db.session.add(bk)
+    db.session.commit()
+    flash(f"Returned {bk.name} to library", "success")
+    return redirect(url_for(".index"))
 
 
 @main.route("/load-file/<bk_id>", methods=["GET", "POST"])
@@ -532,6 +570,8 @@ def import_restore():
                             # if owner doesn't exist in the database,
                             # set UUID of the owner instead
                             bk.tmp_owner_uuid = uuidstr
+                    if len(book_prop) > 4:  # legacy check
+                        bk.level = book_prop[4]
                     db.session.add(bk)
                     db.session.commit()
         else:
@@ -586,6 +626,7 @@ def export():
             my_book.createtime.isoformat(),
             my_book.last_modified.isoformat(),
             owner.uuid,
+            my_book.level,
         )
         exp_dic["@book_prop@"] = book_prop_dic
         exp_dic["@user_prop@"] = current_user.uuid

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% import "bootstrap5/form.html" as form %}
+
+{% block page_content %}
+
+
+<div class="page-header">
+  <img src="/static/browse.jpg" class="img-fluid" alt="Responsive image">
+  <hr>
+  <h1>Browsing a book</h1>
+  <p>You can checkout to borrow and practice this book.</p>
+  <div class="card border-primary mb-4">
+    <div class="card-header"><b>{{ bk.name }}</b>
+      {% if bk.level == 'Beginner' %}
+      <span class="badge rounded-pill bg-info">beginner</span>
+      {% elif bk.level == 'Intermediate' %}
+      <span class="badge rounded-pill bg-warning">intermediate</span>
+      {% elif bk.level == 'Advanced' %}
+      <span class="badge rounded-pill bg-danger">advanced</span>
+      {% elif bk.level %}
+      <span class="badge rounded-pill bg-light">{{ bk.level.lower() }}</span>
+      {% endif %}
+    </div>
+    <div class="card-body">
+      <p class="card-text">
+	{{ bk.words|length }} words, owner: <b>{{ bk.owner.username}}</b>, language: {{bk.word_lang }}<br>
+	created: {{ moment(bk.createtime).format('LLL') }}<br>
+	last modified: {{ moment(bk.last_modified).format('LLL') }}
+      </p>
+    </div>
+  </div>
+</div>
+
+{% if bk.owner == current_user %}
+<button type="button" class="btn btn-primary disabled"><i class="bi-cart-check" style="font-size: 1.2rem"></i> Checkout</button>
+{% else %}
+<a href="/checkout/{{ bk.id }}"><button type="button" class="btn btn-primary"><i class="bi-cart-check" style="font-size: 1.2rem"></i> Checkout</button></a>
+{% endif %}
+<a href="/library"><button type="button" class="btn btn-primary"><i class="bi-buildings" style="font-size: 1.2rem"></i> Go back to library</button></a>
+
+<hr>
+<table class="table">
+  <thread>
+    <tr class="table-primary">
+      <th>#</th>
+      <th>word</th>
+      <th>definition</th>
+      <th>sample</th>
+    </tr>
+  </thread>
+  <tbody>
+    {% for word in bk.words %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ word.word|truncate(20) }}</td>
+      <td>{{ word.definition|truncate(60) }}</td>
+      <td>{{ word.sample|truncate(60) }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
+
+  
