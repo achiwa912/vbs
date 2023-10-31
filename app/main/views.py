@@ -243,6 +243,10 @@ def edit_book(bk_id):
         else:
             bk.name = form.name.data
             bk.word_lang = form.word_lang.data
+            if form.shared.data == "Public":
+                bk.shared = True
+            else:
+                bk.shared = False
             db.session.add(bk)
             db.session.commit()
             flash(f"{ bk.name } updated", "success")
@@ -253,6 +257,10 @@ def edit_book(bk_id):
         return redirect(url_for(".index"))
     form.name.data = bk.name
     form.word_lang.data = bk.word_lang
+    if bk.shared:
+        form.shared.data = "Public"
+    else:
+        form.shared.data = "Private"
     return render_template("editbook.html", form=form, bk=bk)
 
 

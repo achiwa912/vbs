@@ -7,27 +7,19 @@ from wtforms import (
     BooleanField,
     IntegerField,
     TextAreaField,
+    SelectField,
 )
 from wtforms.validators import DataRequired, EqualTo
 
 
 class EditBookForm(FlaskForm):
-    name = StringField("Book name:", validators=[DataRequired()])
-    # lang = RadioField(
-    #     label="Word lang:",
-    #     choices=[
-    #         ("en-US", "English (US)"),
-    #         ("en-GB", "English (UK)"),
-    #         ("ja-JP", "日本語"),
-    #         ("es-ES", "español"),
-    #         ("fr-FR", "français"),
-    #         ("", "Other"),
-    #     ],
-    # )
-    word_lang = StringField(
-        "Language to pronounce (eg, en-US, ja-JP):", validators=[DataRequired()]
-    )
     delete = BooleanField("Delete")
+    name = StringField("Book name:", validators=[DataRequired()])
+    word_lang = StringField("Language (eg, en-US, ja-JP):", validators=[DataRequired()])
+    shared = SelectField(
+        "Shared at library",
+        choices=[("Private", "Private book"), ("Public", "Shared at library")],
+    )
     submit = SubmitField("Submit")
 
 

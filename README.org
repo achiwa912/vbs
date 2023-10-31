@@ -31,6 +31,7 @@ I believe it is better than simple flashcards because:
 - You can try [[https://achiwa912.pythonanywhere.com]]
 - Click the menu icon at the top right corner > =Login= > =Click here to register=
 - Register your account
+- Check your email and confirm
 - Login
 
 ** Choose a sample book
