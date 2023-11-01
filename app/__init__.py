@@ -21,8 +21,9 @@ def create_app(config_name):
     app.config["ADMIN_USER"] = config["ADMIN_USER"]
     app.config["ADMIN_PASS"] = config["ADMIN_PASS"]
     app.config["MAIL_SERVER"] = "smtp.gmail.com"
-    app.config["MAIL_PORT"] = 587
-    app.config["MAIL_USE_TLS"] = True
+    app.config["MAIL_PORT"] = 465  # 587?? (for TLS)
+    app.config["MAIL_USE_TLS"] = False  # True?
+    app.config["MAIL_USE_SSL"] = True  # ???
     app.config["MAIL_USERNAME"] = config["MAIL_USERNAME"]
     app.config["MAIL_PASSWORD"] = config["MAIL_PASSWORD"]
     app.config["SECRET_KEY"] = config["SECRET_KEY"]
