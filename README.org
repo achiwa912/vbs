@@ -101,6 +101,24 @@ deleterious	bad, harmful	a deleterious effect on health
 - Navigate to a book page
 - Click =Load from file= > click =Browse...= > choose a file > click =Submit=
 
+** Or, borrow a wordbook from the library (new)
+You can borrow wordbooks that other users created and practice them as if these are your own books.
+
+- Click menu icon on the top-right corner > choose =library= > you are navigated to the library page
+
+[[./images/library.jpg]]
+
+- You'll see books that other pepole published
+- Click a book for browsing
+
+[[./images/browse.jpg]]
+
+- If you click =Check out=, the book will appear on your home page but in a different color from your own books.
+
+[[./images/borrowed.jpg]]
+
+
+
 ** Backup and restore
 As Vocabull is still being developed, there's some risk that your data is all deleted and lost.  For example, a bug could corrupt the database.  To address such a scenario, I have implemented =Export all= and =Import and restore= features, which enable you to backup/restore your books and practice progress to a local file.
 
