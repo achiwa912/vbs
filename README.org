@@ -32,6 +32,7 @@ I believe it is better than simple flashcards because:
 - Click the menu icon at the top right corner > =Login= > =Click here to register=
 - Register your account
 - Check your email and confirm
+  - Note: you might need to wait several minutes for a confirmation email to arrive; pythonanywhere is really slow on this...
 - Login
 
 ** Choose a sample book
@@ -113,7 +114,7 @@ You can borrow wordbooks that other users created and practice them as if these 
 
 [[./images/browse.jpg]]
 
-- If you click =Check out=, the book will appear on your home page but in a different color from your own books.
+- If you click =(Cart) Checkout=, the book will appear on your home page but in a different color from your own books.
 
 [[./images/borrowed.jpg]]
 
