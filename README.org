@@ -11,7 +11,7 @@
 
 I believe it is better than simple flashcards because:
 - You'll see hard-to-memorize words more frequently
-  - It repeats small number of words until you memorize (for now)
+  - The shifting learning window method (see below)
 - You can practice spelling (the type-word mode)
 - vocaBull pronounces words and examples for you
 - As a web application, you can practice anywhere at anytime with your mobile phone, tablet or PC
@@ -25,6 +25,19 @@ I believe it is better than simple flashcards because:
 - You'll see these 10 words repeatedly until you "memorize" them for now
 - You'll see memorized words again after the entire words are memorized for the round
 - You can skip known words for five entire rounds; or, you can remove the words
+
+** The shifting learning window method
+Repetition is the key for memorizing new words (thus, flash cards), but I don't think exising flash cards or flash-card apps provide you with enough repetitions for efficient memorization.
+
+For example, say, a set of flash cards or a word book has 200 words.  If you go over the 200 words one-by-one, you'd be most likely to forget almost everything when you encountr the same word for 2nd, 3rd or 4th time.
+
+vocaBull addresses this issue by introducing a combination of high-frequency repetitions of small number of words, and low-frequency repetitions of medium number of words.
+
+The high-frequenry repetitions are realized with the "learning window".  Learning window can have 10 words, and initially has the 1st 10 words in a word book.
+
+As you repeat 10 words in the learning window, you memorize a word or two.  Then, the learning window replaces the memorized word with a new word.  This way, the learning window has 10 words that you are actively working on.  It shifts through a word book and eventually reaches the end of the book.  Then, the next cycle starts until you memorize everything in the book.
+
+As you can see, a word book represents the unit of low-frequency repepitions.
 
 * Quick Start
 ** Register and login
