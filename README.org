@@ -29,13 +29,13 @@ I believe it is better than simple flashcards because:
 ** The shifting learning window method
 Repetition is the key for memorizing new words (thus, flash cards), but I don't think exising flash cards or flash-card apps provide you with enough repetitions for efficient memorization.
 
-For example, say, a set of flash cards or a word book has 200 words.  If you go over the 200 words one-by-one, you'd be most likely to forget almost everything when you encountr the same word for 2nd, 3rd or 4th time.
+For example, say, a set of flash cards or a word book has 200 words.  If you go over the 200 words one-by-one, you'd be most likely to forget almost everything when you encountr the same word for the 2nd, 3rd or 4th time.
 
-vocaBull addresses this issue by introducing a combination of high-frequency repetitions of small number of words, and low-frequency repetitions of medium number of words.
+vocaBull addresses this issue by introducing a combination of high-frequency repetitions of small number of words, and low-frequency repetitions of medium number of words - the shifting learning window method.
 
-The high-frequenry repetitions are realized with the "learning window".  Learning window can have 10 words, and initially has the 1st 10 words in a word book.
+The high-frequenry repetitions are realized with the "learning window".  Learning window can have 10 words, and initially has the 1st 10 words in a word book.  (More precicely, words are randomly picked)
 
-As you repeat 10 words in the learning window, you memorize a word or two.  Then, the learning window replaces the memorized word with a new word.  This way, the learning window has 10 words that you are actively working on.  It shifts through a word book and eventually reaches the end of the book.  Then, the next cycle starts until you memorize everything in the book.
+As you repeat 10 words in the learning window, you memorize a word or two.  Then, the learning window replaces the memorized word with a new word.  This way, the learning window has 10 words that you are actively working on.  It shifts through a word book and eventually reaches the end of the book.  Then, the next cycle starts.  This process contines until you memorize everything in the book.
 
 As you can see, a word book represents the unit of low-frequency repepitions.
 
