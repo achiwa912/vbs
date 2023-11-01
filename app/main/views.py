@@ -81,6 +81,7 @@ def book(bk_id):
 @main.route("/practice/<bk_id>/<ptype>", methods=["GET", "POST"])
 @login_required
 def practice(bk_id, ptype):
+    bk_id = int(bk_id)
     bk = Book.query.filter_by(id=bk_id).first_or_404()
     session["ptype"] = ptype
     session["word_lang"] = bk.word_lang
@@ -89,7 +90,8 @@ def practice(bk_id, ptype):
     numprac = (
         Practice.query.join(User, User.id == Practice.user_id)
         .join(Word, Word.id == Practice.word_id)
-        .filter(Word.book_id == bk_id and User.id == current_user.id)
+        .filter(Word.book_id == bk_id)
+        .filter(User.id == current_user.id)
         .count()
     )
     numword = Word.query.filter_by(book_id=bk_id).count()

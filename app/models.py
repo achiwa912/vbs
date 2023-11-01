@@ -378,8 +378,10 @@ def create_practices(book, user):
     """
     words = Word.query.filter_by(book_id=book.id).all()
     for word in words:
-        if not Practice.query.filter(
-            Practice.word_id == word.id and Practice.user_id == user.id
-        ).first():
+        if (
+            not Practice.query.filter(Practice.word_id == word.id)
+            .filter(Practice.user_id == user.id)
+            .first()
+        ):
             db.session.add(Practice(user.id, word.id))
     db.session.commit()
