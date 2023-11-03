@@ -26,12 +26,14 @@ I believe it is better than simple flashcards because:
 - You'll see memorized words again after the entire words are memorized for the round
 - You can skip known words for five entire rounds; or, you can remove the words
 
-** The shifting learning window method
+** The Shifting Learning Window method
 Repetition is the key for memorizing new words (thus, flash cards), but I don't think exising flash cards or flash-card apps provide you with enough repetitions for efficient memorization.
 
 For example, say, a set of flash cards or a word book has 200 words.  If you go over the 200 words one-by-one, you'd be most likely to forget almost everything when you encountr the same word for the 2nd, 3rd or 4th time.
 
-vocaBull addresses this issue by introducing a combination of high-frequency repetitions of small number of words, and low-frequency repetitions of medium number of words - the shifting learning window method.
+vocaBull addresses this issue by introducing a combination of high-frequency repetitions of small number of words, and low-frequency repetitions of medium number of words - the Shifting Learning Window method.
+
+[[./images/vbs_SLW.jpg]]
 
 The high-frequenry repetitions are realized with the "learning window".  Learning window can have 10 words, and initially has the 1st 10 words in a word book.  (More precicely, words are randomly picked)
 
