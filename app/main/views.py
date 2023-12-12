@@ -126,6 +126,7 @@ def practice(bk_id, ptype):
                 session["tmp_score"] += 1
                 session["tmp_count"] += 1
             else:
+                prac.ng_type += 1
                 session["index"] += 1
                 if session["index"] >= len(session["lwin"]):
                     session["index"] = 0

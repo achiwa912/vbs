@@ -28,12 +28,14 @@
 	<div class="collapse navbar-collapse" id="navbarColor01">
 	  <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('main.index') }}">home
+              <a class="nav-link" href="{{ url_for('main.index') }}">
+		<i class="bi-house-fill" style="font-size: 1.2rem"></i> home
 		<span class="visually-hidden">(current)</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('main.library') }}">library
+              <a class="nav-link" href="{{ url_for('main.library') }}">
+		<i class="bi-buildings-fill" style="font-size: 1.2rem"></i> library
 		<span class="visually-hidden">(current)</span>
               </a>
             </li>
@@ -46,7 +48,9 @@
             </li>
 	    {% else %}
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('auth.login') }}">login</a>
+              <a class="nav-link" href="{{ url_for('auth.login') }}">
+		<i class="bi-mortarboard-fill" style="font-size: 1.2rem"></i> login
+	      </a>
             </li>
 	    {% endif %}
 	  </ul>
