@@ -224,6 +224,13 @@ def add_book():
             flash(f"Book: { form.name.data } already exists", "error")
             return redirect(url_for(".index"))
         bk = Book(form.name.data, current_user.id)
+        bk.name = form.name.data
+        bk.level = form.level.data
+        bk.word_lang = form.word_lang.data
+        if form.shared.data == "Public":
+            bk.shared = True
+        else:
+            bk.shared = False
         db.session.add(bk)
         db.session.commit()
         flash(f"Book: { bk.name } created", "success")
