@@ -101,7 +101,7 @@ def practice(bk_id, ptype):
         session["lwin"] = []
     if not session.get("index"):
         session["index"] = 0
-    fill_lwin(bk.id, ptype)
+    fill_lwin(bk.id, ptype, True)
     session["url"] = url_for(".practice", bk_id=bk_id, ptype=ptype)
     if "url_rep" in session:
         del session["url_rep"]

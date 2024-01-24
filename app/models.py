@@ -283,7 +283,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-def fill_lwin(book_id, ptype):
+def fill_lwin(book_id, ptype, initial=False):
     """
     fill learning window (lwin)
     lwin - list of word_id
@@ -365,7 +365,10 @@ def fill_lwin(book_id, ptype):
         for prac in practices:
             word = Word.query.filter_by(id=prac.word_id).first()
             if word.id not in lwin:
-                lwin.insert(session["index"], word.id)
+                if initial:
+                    lwin.append(word.id)
+                else:
+                    lwin.insert(session["index"], word.id)
                 if len(lwin) >= config["LWIN_SIZE"]:
                     session["lwin"] = lwin
                     return
