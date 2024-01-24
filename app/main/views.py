@@ -206,6 +206,9 @@ def practice_memorized(ptype, plus):
     db.session.commit()
     word = Word.query.filter_by(id=word_id).first()
     fill_lwin(word.book_id, ptype)
+    session["index"] += 1
+    if session["index"] >= len(session["lwin"]):
+        session["index"] = 0
     if "url" in session:
         return redirect(session["url"])
     return redirect(url_for(".index"))

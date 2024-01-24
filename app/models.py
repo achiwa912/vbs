@@ -365,7 +365,7 @@ def fill_lwin(book_id, ptype):
         for prac in practices:
             word = Word.query.filter_by(id=prac.word_id).first()
             if word.id not in lwin:
-                lwin.append(word.id)
+                lwin.insert(session["index"], word.id)
                 if len(lwin) >= config["LWIN_SIZE"]:
                     session["lwin"] = lwin
                     return
