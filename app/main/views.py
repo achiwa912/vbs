@@ -121,6 +121,9 @@ def practice(bk_id, ptype):
                 db.session.commit()
                 session["lwin"].pop(session["index"])
                 fill_lwin(bk.id, int(ptype))
+                session["index"] += 1
+                if session["index"] >= len(session["lwin"]):
+                    session["index"] = 0
                 correct = True
                 flash(f"Correct! -- type the word 4 times, anyway", "success")
                 session["tmp_score"] += 1
